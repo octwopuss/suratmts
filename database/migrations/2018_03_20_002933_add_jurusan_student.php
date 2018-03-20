@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateSuratTestTable extends Migration
+class AddJurusanStudent extends Migration
 {
     /**
      * Run the migrations.
@@ -13,12 +13,8 @@ class CreateSuratTestTable extends Migration
      */
     public function up()
     {
-        Schema::create('surat_test', function (Blueprint $table) {
-            $table->increments('id');               
-            $table->string('nama');
-            $table->string('nim');
-            $table->integer('angkatan');
-            $table->timestamps();            
+        Schema::table('student', function (Blueprint $table) {
+            $table->string('bidang_pilihan');            
         });
     }
 
@@ -29,6 +25,6 @@ class CreateSuratTestTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('surat_test');
+        //
     }
 }

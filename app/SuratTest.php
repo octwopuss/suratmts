@@ -5,14 +5,21 @@ namespace App;
 use Illuminate\Database\Eloquent\Model;
 
 class SuratTest extends Model
-{
-    public $timestamps = false;
+{   
     protected $table = "surat_test";
+
+    protected $dates = [
+        'created_at'
+    ];
 
     protected $fillable = array(
     	'name', 
     	'nim',
     	'angkatan',
-    	'tanggal'
     );
+
+    public function student()
+    {
+		return $this->belongsTo('App\Student', 'student_id');
+	}
 }

@@ -23,6 +23,9 @@
 </head>
 
 <body>
+    @php
+        $notif = DB::table('surat_test')->where('admin_notif', '1')->get();        
+    @endphp
     <!-- WRAPPER -->
     <div id="wrapper">
         <!-- NAVBAR -->
@@ -40,16 +43,22 @@
                         <li class="dropdown">
                             <a href="#" class="dropdown-toggle icon-menu" data-toggle="dropdown">
                                 <i class="lnr lnr-alarm"></i>
-                                <span class="badge bg-danger">5</span>
-                            </a>
-                            <ul class="dropdown-menu notifications">
-                                <li><a href="#" class="notification-item"><span class="dot bg-warning"></span>System space is almost full</a></li>
-                                <li><a href="#" class="notification-item"><span class="dot bg-danger"></span>You have 9 unfinished tasks</a></li>
-                                <li><a href="#" class="notification-item"><span class="dot bg-success"></span>Monthly report is available</a></li>
-                                <li><a href="#" class="notification-item"><span class="dot bg-warning"></span>Weekly meeting in 1 hour</a></li>
-                                <li><a href="#" class="notification-item"><span class="dot bg-success"></span>Your request has been approved</a></li>
-                                <li><a href="#" class="more">See all notifications</a></li>
-                            </ul>
+                                @if(count($notif) > 0)
+                                <span class="badge bg-danger">
+                                    {{count($notif)}}
+                                </span>
+                                @endif
+                            </a>                                                        
+                                <ul class="dropdown-menu notifications">                                    
+                                    @if(count($notif) > 0)                                
+                                        
+                                            @foreach($notif as $ntf)
+                                                <li><a href="{{route('notifAdmin', $ntf->id)}}" class="notification-item"><span class="dot bg-warning"></span>System space is almost full</a></li>
+                                            @endforeach                                                                
+                                    @else
+                                    <li><a class="notification-item">Tidak ada notifikasi</a></li>
+                                    @endif                                    
+                                </ul>                             
                         </li>
                         <!-- Might use this dropdown later -->
                         <!-- <li class="dropdown">
@@ -83,23 +92,20 @@
             <div class="sidebar-scroll">
                 <nav>
                     <ul class="nav">
-                        <li><a href="/dashboard" class="active"><i class="lnr lnr-home"></i> <span>Dasbor</span></a>
+                        <li><a href="/admin/dashboard" class="active"><i class="lnr lnr-home"></i> <span>Dasbor</span></a>
                         <li>
                             <a href="#subPagesAdmin" data-toggle="collapse" class="collapsed"><i class="lnr lnr-user"></i> <span>Surat Masuk</span > <i class="icon-submenu lnr lnr-chevron-left"></i></a>
                             <div id="subPagesAdmin" class="collapse ">
                                 <ul class="nav">
-                                    <li><a href="/admin/surat-masuk/1">Lihat Surat 1</a></li>
-                                    <li><a href="/admin/surat-masuk/2">Lihat Surat 2</a></li
- >                               </ul>
+                                    <li><a href="/admin/surat-masuk/surat-1">Lihat Surat 1</a></li>                                    
+                               </ul>
                             </div>
                         </li>                                                              
                         <li>
                             <a href="#subPages" data-toggle="collapse" class="collapsed"><i class="lnr lnr-inbox"></i> <span>Buat Surat</span> <i class="icon-submenu lnr lnr-chevron-left"></i></a>
                             <div id="subPages" class="collapse ">
                                 <ul class="nav">
-                                    <li><a href="{{route('admin.buatSurat', '1')}}" class="">Surat 1</a></li>
-                                    <li><a href="{{route('admin.buatSurat', '2')}}" class="">Surat 2</a></li>
-                                    <li><a href="{{route('admin.buatSurat', '3')}}" class="">Surat 3</a></li>
+                                    <li><a href="{{route('admin.showSurat1')}}" class="">Surat 1</a></li>                           
                                 </ul>
                             </div>
                         </li>  
@@ -135,10 +141,7 @@
     <!-- END WRAPPER -->
     <!-- Javascript -->
     <script src="{{asset('assets/vendor/jquery/jquery.min.js')}}"></script>
-    <script src="{{asset('assets/vendor/bootstrap/js/bootstrap.min.js')}}"></script>
-    <script src="{{asset('assets/vendor/jquery-slimscroll/jquery.slimscroll.min.js')}}"></script>
-    <script src="{{asset('assets/vendor/jquery.easy-pie-chart/jquery.easypiechart.min.js')}}"></script>
-    <script src="{{asset('assets/vendor/chartist/js/chartist.min.js')}}"></script>
+    <script src="{{asset('assets/vendor/bootstrap/js/bootstrap.min.js')}}"></script>    
     <script src="{{asset('assets/scripts/klorofil-common.js')}}"></script>
 </body>
 </html>

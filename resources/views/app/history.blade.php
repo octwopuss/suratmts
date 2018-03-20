@@ -3,41 +3,43 @@
 @section('history')
 <div class="panel">
 	<div class="panel-heading">
-		<h3 class="panel-title">History</h3>
+		<h2 class="panel-title">History</h2>
 	</div>
 	<div class="panel-body">
-		<table class="table table-bordered">
+		<table id="table-surat" class="cell-border" style="width:100%">
 			<thead>
-				<tr>
-					<th>#</th>					
-					<th>Jenis Surat</th>
-					<th>Waktu Pengajuan</th>
+				<tr>									
+					<th>Keperluan Surat</th>
+					<th>Tanggal Pengajuan</th>
 					<th>Status Surat</th>	
 					<th>Aksi</th>				
 				</tr>
 			</thead>
 			<tbody>
-				<tr>
-					<td>1</td>
-					<td>Surat 1</td>
-					<td>5 Desember 2017</td>
+				@foreach($detail_surat as $surat)
+				<tr>										
+					<td>
+						@php
+						if($surat->tipe_surat == "1A"){
+							$id_surat = $surat->id_surat;
+							$surat = DB::table('surat_1_a')->where('id', $id_surat)->first();
+							$keperluan = $surat->keperluan;
+							echo $keperluan;
+						}else{
+							$id_surat = $surat->id_surat;
+							$surat = DB::table('surat_1_b')->where('id', $id_surat)->first();
+							$keperluan = $surat->keperluan_data;
+							echo $keperluan;
+						}
+						@endphp
+					</td>
+					<td>
+						{{$surat->created_at}}
+					</td>
 					<td><span class="label label-success">Diterima</span></td>
-					<td><a href="/sejarah-surat/lihat/1"><button class="btn btn-info btn-xs"><i class="fa fa-eye fa-fw"></i><span>Lihat</span>
-				</tr>
-				<tr>
-					<td>2</td>
-					<td>Surat 2</td>
-					<td>5 Desember 2017</td>
-					<td><span class="label label-default">Pending</span></td>
-					<td><a href="/sejarah-surat/lihat/1"><button class="btn btn-info btn-xs"><i class="fa fa-eye fa-fw"></i><span>Lihat</span>
-				</tr>
-				<tr>
-					<td>3</td>
-					<td>Surat 2</td>
-					<td>10 Desember 2017</td>
-					<td><span class="label label-default">Pending</span></td>
-					<td><a href="/sejarah-surat/lihat/1"><button class="btn btn-info btn-xs"><i class="fa fa-eye fa-fw"></i><span>Lihat</span></button></a></td>
-				</tr>
+					<td><a href="/riwayat-surat/lihat/1"><button class="btn btn-info btn-xs"><i class="fa fa-eye fa-fw"></i><span>Lihat</span>
+				</tr>		
+				@endforeach
 			</tbody>
 		</table>
 	</div>

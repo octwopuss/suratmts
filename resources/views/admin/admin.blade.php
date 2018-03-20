@@ -6,8 +6,8 @@
     <h1 class="page-title">Daftar Surat Masuk</h1>
 </div>
 <div class="row">
-@for($i = 1; $i < 5; $i++)
-        <a href="/table/{{$i}}">           
+@for($i = 1; $i < 2; $i++)
+        <a href="{{route('admin.suratMasuk.show')}}">           
             <div class="col-md-3">                
                     <div class="metric">
                     <span class="icon"><i class="fa fa-envelope"></i></span>

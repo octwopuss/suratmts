@@ -9,20 +9,22 @@
     <!-- VENDOR CSS -->
     <link rel="stylesheet" href="{{asset('assets/vendor/bootstrap/css/bootstrap.min.css')}}">
     <link rel="stylesheet" href="{{asset('assets/vendor/font-awesome/css/font-awesome.min.css')}}">
-    <link rel="stylesheet" href="{{asset('assets/vendor/linearicons/style.css')}}">
-    <link rel="stylesheet" href="{{asset('assets/vendor/chartist/css/chartist-custom.css')}}">
+    <link rel="stylesheet" href="{{asset('assets/vendor/linearicons/style.css')}}">        
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.16/css/jquery.dataTables.css">    
     <!-- MAIN CSS -->
-    <link rel="stylesheet" href="{{asset('assets/css/main.css')}}">
-    <!-- FOR DEMO PURPOSES ONLY. You should remove this in your project -->
-    <link rel="stylesheet" href="{{asset('assets/css/demo.css')}}">
+    <link rel="stylesheet" href="{{asset('assets/css/main.css')}}">    
     <!-- GOOGLE FONTS -->
     <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700" rel="stylesheet">
     <!-- ICONS -->
     <link rel="apple-touch-icon" sizes="76x76" href="{{asset('assets/img/apple-icon.png')}}">
-    <link rel="icon" type="image/png" sizes="96x96" href="{{asset('assets/img/favicon.png')}}">
+    <link rel="icon" type="image/png" sizes="96x96" href="{{asset('assets/img/favicon.png')}}">    
 </head>
 
 <body>
+
+    @php
+        $notif = DB::table('surat_test')->where('user_notif', '1')->get();
+    @endphp
     <!-- WRAPPER -->
     <div id="wrapper">
         <!-- NAVBAR -->
@@ -40,15 +42,15 @@
                         <li class="dropdown">
                             <a href="#" class="dropdown-toggle icon-menu" data-toggle="dropdown">
                                 <i class="lnr lnr-alarm"></i>
-                                <span class="badge bg-danger">5</span>
+                                @if(count($notif) > 0)
+                                <span class="badge bg-danger">             
+                                    {{count($notif)}}                                                 
+                                </span>
+                                @endif
+                                    
                             </a>
                             <ul class="dropdown-menu notifications">
-                                <li><a href="#" class="notification-item"><span class="dot bg-warning"></span>System space is almost full</a></li>
-                                <li><a href="#" class="notification-item"><span class="dot bg-danger"></span>You have 9 unfinished tasks</a></li>
-                                <li><a href="#" class="notification-item"><span class="dot bg-success"></span>Monthly report is available</a></li>
-                                <li><a href="#" class="notification-item"><span class="dot bg-warning"></span>Weekly meeting in 1 hour</a></li>
-                                <li><a href="#" class="notification-item"><span class="dot bg-success"></span>Your request has been approved</a></li>
-                                <li><a href="#" class="more">See all notifications</a></li>
+                                <li><a href="#" class="notification-item"><span class="dot bg-warning"></span>System space is almost full</a></li>                                                                
                             </ul>
                         </li>
                         <!-- Might use this dropdown later -->
@@ -88,9 +90,8 @@
                             <a href="#subPages" data-toggle="collapse" class="collapsed"><i class="lnr lnr-inbox"></i> <span>Buat Surat</span> <i class="icon-submenu lnr lnr-chevron-left"></i></a>
                             <div id="subPages" class="collapse ">
                                 <ul class="nav">
-                                    <li><a href="/table/1" class="">Surat 1</a></li>
-                                    <li><a href="/table/2" class="">Surat 2</a></li>
-                                    <li><a href="/table/3" class="">Surat 3</a></li>
+                                    <li><a href="{{route('showSurat1A')}}" class="">Surat Internal</a></li>                                    
+                                    <li><a href="{{route('showSurat1B')}}" class="">Surat Eksternal</a></li>                                    
                                 </ul>
                             </div>
                         </li>  
@@ -123,12 +124,16 @@
         </footer>
     </div>
     <!-- END WRAPPER -->
-    <!-- Javascript -->
+    <!-- Javascript -->    
     <script src="{{asset('assets/vendor/jquery/jquery.min.js')}}"></script>
-    <script src="{{asset('assets/vendor/bootstrap/js/bootstrap.min.js')}}"></script>
-    <script src="{{asset('assets/vendor/jquery-slimscroll/jquery.slimscroll.min.js')}}"></script>
-    <script src="{{asset('assets/vendor/jquery.easy-pie-chart/jquery.easypiechart.min.js')}}"></script>
-    <script src="{{asset('assets/vendor/chartist/js/chartist.min.js')}}"></script>
-    <script src="{{asset('assets/scripts/klorofil-common.js')}}"></script>
+    <script src="{{asset('assets/vendor/bootstrap/js/bootstrap.min.js')}}"></script>    
+    <script src="{{asset('assets/scripts/klorofil-common.js')}}"></script>    
+    <script type="text/javascript" src="https://code.jquery.com/jquery-1.12.4.js"></script>
+    <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.16/js/jquery.dataTables.js"></script>
+    <script>
+        $(document).ready(function() {
+            $('#table-surat').DataTable();
+        } );
+    </script>          
 </body>
 </html>

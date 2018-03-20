@@ -223,3 +223,8 @@ $.fn.clickToggle = function( f1, f2 ) {
 }
 
 
+// custom function for delete
+
+$(".deleteSurat").click(function(){
+		return confirm('Apakah anda yakin untuk menghapus item ini?');
+	});

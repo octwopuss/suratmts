@@ -2,7 +2,7 @@
 
 @section('tabel')
 <div class="panel-title">
-	<h3 class="page-title"><strong>Surat 1</strong></h3>
+	<h3 class="page-title"><strong>Surat Eksternal</strong></h3>
 	<h3 class="page-title"><a href="/table/surat1/1/tambah"><button type="button" class="btn btn-success">Buat Surat</button></a></h3>
 </div>
 
