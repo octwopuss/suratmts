@@ -29,14 +29,6 @@ class SuratController extends Controller
         return view('app.dashboard');
     }    
 
-    public function history(){
-
-        $student_id = Auth::guard('student')->id();
-        $detail_surat = DetailSurat::where('user_id', $student_id)->get();                
-
-        return view('app.history', ['detail_surat'=>$detail_surat]);
-    }
-
     public function historyView($id){
 
         return view('app.surat-test');
@@ -51,60 +43,54 @@ class SuratController extends Controller
 
     public function indexSurat1A(){
         $student_id = Auth::guard('student')->id();
-        $detail_surat = DetailSurat::where('user_id', $student_id)->first();                        
+        $detail_surat = DetailSurat::where('user_id', $student_id)->where('status', 0)->get();
         
-        if($detail_surat == null){            
-            return view('app.surat1a.surat1a',['cek_surat'=>$detail_surat]);
-        }else{
-            $tipe = $detail_surat->tipe_surat;
-            if($tipe == "1A")
-                {
-                    $surat = Surat1A::where('student_id', $student_id)->get();            
-                    return view('app.surat1a.surat1a', ['surat'=>$surat, 'cek_surat'=>$detail_surat]);               
-                }else
-                {
-                    $surat = Surat1A::where('student_id', $student_id)->get();            
-                    return view('app.surat1a.surat1a', ['surat'=>$surat, 'cek_surat'=>$detail_surat]);               
-                }
-        }
-                    
+        return view('app.surat1a.surat1a', ['surat'=>$detail_surat]);
     }
 
     public function create1A(){
-        $student_id = Auth::guard('student')->id();
-        $data = $student_id;
+        $student = Auth::guard('student')->user();
+        $surat1a = Surat1A::where('id', $student->id)->first();
 
-        return view('app.surat1a.form', ['data'=>$data]);
+        return view('app.surat1a.form', ['student'=>$student]);
     }
 
     public function storeSurat1A(Request $request, $data){
         
-        $validasiData = $request->validate([
+        $validasiData = $request->validate([            
             'alamat_rumah' => 'required',
             'telepon' => 'required',
             'instansi' => 'required',
             'alamat_instansi' => 'required',
             'telp_instansi' => 'required',          
-            'keperluan' => 'required'            
-        ]);
-
+            'keperluan' => 'required',
+            'kegunaan' => 'required',            
+        ]);        
+            
         $id = $data;
         $student_id = Auth::guard('student')->id();
         $nama = Auth::guard('student')->user()->nama;
         $nim = Auth::guard('student')->user()->nim;
+        $bidang_pilihan = Auth::guard('student')->user()->bidang_pilihan;
         $surat = new Surat1A();
         $detail_surat = new DetailSurat();
 
         $surat_internal = "1A";        
 
+        $keperluan = implode(", ", $request->keperluan);
+
         //Surat
         $surat->student_id = $student_id;        
+        $surat->nama = $nama;
+        $surat->nim = $nim;
+        $surat->bidang_pilihan = $bidang_pilihan;
         $surat->alamat_rumah = $request->alamat_rumah;
         $surat->telepon = $request->telepon;
         $surat->instansi = $request->instansi;
         $surat->alamat_instansi = $request->alamat_instansi;
         $surat->telp_instansi = $request->telp_instansi;
-        $surat->keperluan = $request->keperluan;   
+        $surat->keperluan = $keperluan;   
+        $surat->kegunaan_surat = $request->kegunaan;        
 
         $surat->save();  
 
@@ -115,6 +101,7 @@ class SuratController extends Controller
         $detail_surat->tipe_surat = $surat_internal;
         $detail_surat->id_surat = $srt_last->id;
         $detail_surat->notif = 1;
+        $detail_surat->status = 0;
 
         $detail_surat->save();        
         return redirect()->route('showSurat1A')->with('success', 'Surat berhasil ditambahkan');
@@ -129,46 +116,59 @@ class SuratController extends Controller
     }
 
     public function editSurat1A($id){
+
         $data = $id;
         $surat = Surat1A::where('id', $id)->first();        
+        $data = Auth::guard('student')->id();
+        $nama = Auth::guard('student')->user()->nama;
+        $nim = Auth::guard('student')->user()->nim;
+        $bidang_pilihan = Auth::guard('student')->user()->bidang_pilihan;
 
-        return view('app.surat1a.formEdit', ['data'=>$data, 'surat'=>$surat]);
+        return view('app.surat1a.formEdit', [
+            'data'=>$data, 
+            'nama'=>$nama, 
+            'nim'=>$nim, 
+            'bidang_pilihan'=>$bidang_pilihan,
+            'surat'=>$surat
+            ]);    
     }
 
     public function updateSurat1A(Request $request, $data){
-        $validasiData = $request->validate([
-            'bidang_pilihan' => 'required',
+        $validasiData = $request->validate([            
             'alamat_rumah' => 'required',
             'telepon' => 'required',
             'instansi' => 'required',
             'alamat_instansi' => 'required',
-            'telp_instansi' => 'required',          
             'keperluan' => 'required'            
         ]);
+
+
 
         $id = $data;
         $student_id = Auth::guard('student')->id();
         $nama = Auth::guard('student')->user()->nama;
         $nim = Auth::guard('student')->user()->nim;
+        $bidang_pilihan = Auth::guard('student')->user()->bidang_pilihan;        
         $surat = Surat1A::find($data);      
-        
+        $keperluan = implode(", ", $request->keperluan);
+
         $surat_eksternal = "1B";
 
         //Surat
         $surat->student_id = $student_id;
         $surat->nama = $nama;
         $surat->nim = $nim;       
-        $surat->bidang_pilihan = $request->bidang_pilihan;
+        $surat->bidang_pilihan = $bidang_pilihan;
         $surat->alamat_rumah = $request->alamat_rumah;
         $surat->telepon = $request->telepon;
         $surat->instansi = $request->instansi;
         $surat->alamat_instansi = $request->alamat_instansi;
         $surat->telp_instansi = $request->telp_instansi;
-        $surat->keperluan = $request->keperluan;   
+        $surat->keperluan = $keperluan;   
 
         $surat->save();        
 
-        return redirect()->route('indexSurat1A')->with('success', 'Surat berhasil diupdate!');
+        return redirect()->route('showSurat1A')->with('success', 'Surat berhasil diupdate!');
     }
 
     /* END CRUD SURAT1A - SURAT INTERNAL */
@@ -177,29 +177,15 @@ class SuratController extends Controller
 
     public function indexSurat1B(){
         $student_id = Auth::guard('student')->id();
-        $detail_surat = DetailSurat::where('user_id', $student_id)->first();                        
+        $surat = DetailSurat::where('status', 0)->where('tipe_surat', '1B')->get();
+
+        return view('app.surat1b.surat1b', ['surat'=>$surat]);
         
-        if($detail_surat == null){            
-            return view('app.surat1a.surat1a',['cek_surat'=>$detail_surat]);
-        }else{
-            $tipe = $detail_surat->tipe_surat;
-            if($tipe == "1B")
-                {
-                    $surat = Surat1B::where('student_id', $student_id)->get();            
-                    return view('app.surat1b.surat1b', ['surat'=>$surat, 'cek_surat'=>$detail_surat]);               
-                }else
-                {
-                    $surat = Surat1B::where('student_id', $student_id)->get();            
-                    return view('app.surat1b.surat1b', ['surat'=>$surat, 'cek_surat'=>$detail_surat]);               
-                }
-        }
     }
 
-    public function create1B(){
-        $student_id = Auth::guard('student')->id();
-        $data = $student_id;
-
-        return view('app.surat1b.form', ['data'=>$data]);
+    public function create1B(){        
+        $student = Auth::guard('student')->user();                
+        return view('app.surat1b.form', ['student'=>$student]);
     }
 
     public function storeSurat1B(Request $request, $data){
@@ -207,30 +193,41 @@ class SuratController extends Controller
             'alamat_rumah' => 'required',
             'telepon' => 'required',
             'instansi' => 'required',
-            'alamat_instansi' => 'required',
-            'telp_instansi' => 'required',          
+            'alamat_instansi' => 'required',            
             'keperluan_data' => 'required',
             'instansi_tujuan' => 'required',
-            'alamat_tujuan' => 'required'
+            'alamat_tujuan' => 'required',
+            'judul_tesis' => 'required'
         ]);
 
         $id = $data;
         $student_id = Auth::guard('student')->id();        
+        $nama = Auth::guard('student')->user()->nama;
+        $nim = Auth::guard('student')->user()->nim;
+        $bidang_pilihan = Auth::guard('student')->user()->bidang_pilihan;
         $surat = new Surat1B();
         $detail_surat = new DetailSurat();
-        
+
+        $data_filter = array_filter($request->keperluan_data);
+        $keperluan_data = implode(",", $data_filter);                        
+
         $surat_eksternal = "1B";
 
         //Surat
         $surat->student_id = $student_id;        
+        $surat->nama = $nama;
+        $surat->nim = $nim;
+        $surat->bidang_pilihan = $bidang_pilihan;
         $surat->alamat_rumah = $request->alamat_rumah;
         $surat->telepon = $request->telepon;
         $surat->instansi = $request->instansi;
         $surat->alamat_instansi = $request->alamat_instansi;
         $surat->telp_instansi = $request->telp_instansi;
-        $surat->keperluan_data = $request->keperluan_data;   
+        $surat->keperluan_data = $keperluan_data;   
         $surat->instansi_tujuan = $request->instansi_tujuan;
         $surat->alamat_tujuan = $request->alamat_tujuan;
+        $surat->alasan_keperluan = $request->alasan_keperluan;
+        $surat->judul_tesis = $request->judul_tesis;
 
         $surat->save();  
 
@@ -241,24 +238,26 @@ class SuratController extends Controller
         $detail_surat->tipe_surat = $surat_eksternal;
         $detail_surat->id_surat = $srt_last->id;
         $detail_surat->notif = 1;
+        $detail_surat->status = 0;
 
         $detail_surat->save();        
         return redirect()->route('showSurat1B');   
     }
 
-    public function deleteSurat1B($id){
-        $surat = Surat1B::destroy($id);
-        $detail_surat = DetailSurat::where('id_surat', $id)->where('tipe_surat','1B');
-        $detail_surat->delete();
+    public function deleteSurat1B($id){        
+        $surat = Surat1B::where('id', $id)->delete();
+        $detail_surat = DetailSurat::where('id_surat', $id)->where('tipe_surat','1B')->delete();
 
-        return redirect()->route('showSurat1A')->with('success', 'Surat telah diupdate');
+        return redirect()->route('showSurat1B')->with('success', 'Surat telah diupdate');
     }
 
     public function editSurat1B($id){
         $data = $id;
-        $surat = Surat1B::where('id', $id)->first();        
+        $surat = Surat1B::where('id', $id)->first();    
+        $array_data = explode(",", $surat->keperluan_data);
+        $keperluan_data = array_filter($array_data);
 
-        return view('app.surat1b.formEdit', ['data'=>$data, 'surat'=>$surat]);
+        return view('app.surat1b.formEdit', ['data'=>$data, 'surat'=>$surat, 'keperluan_data'=>$keperluan_data]);
     }
 
     public function updateSurat1B(Request $request, $data){
@@ -267,12 +266,14 @@ class SuratController extends Controller
             'alamat_rumah' => 'required',
             'telepon' => 'required',
             'instansi' => 'required',
-            'alamat_instansi' => 'required',
-            'telp_instansi' => 'required',          
+            'alamat_instansi' => 'required',            
             'keperluan_data' => 'required',
             'instansi_tujuan' => 'required',
             'alamat_tujuan' => 'required'        
         ]);
+
+        $data_filter = array_filter($request->keperluan_data);
+        $keperluan_data = implode(",", $data_filter);                                
 
         $id = $data;
         $student_id = Auth::guard('student')->id();
@@ -292,7 +293,7 @@ class SuratController extends Controller
         $surat->instansi = $request->instansi;
         $surat->alamat_instansi = $request->alamat_instansi;
         $surat->telp_instansi = $request->telp_instansi;
-        $surat->keperluan_data = $request->keperluan_data;   
+        $surat->keperluan_data = $keperluan_data;   
         $surat->instansi_tujuan = $request->instansi_tujuan;
         $surat->alamat_tujuan = $request->alamat_tujuan;
   
@@ -301,9 +302,65 @@ class SuratController extends Controller
         return redirect()->route('showSurat1B')->with('success', 'Surat berhasil diupdate!');
     }
 
+    public function viewSurat1B($id){
+        $surat = Surat1B::where('id', $id)->first();
+        $array_data = explode(",", $surat->keperluan_data);
+        $keperluan_data = array_filter($array_data);
+
+        $get_month = $surat->created_at->month;
+
+        $month_list = ['Januari', 
+                'Februari',
+                'Maret',
+                'April',
+                'Mei',
+                'Juni',
+                'Juli',
+                'Agustus',
+                'September',
+                'Oktober',
+                'November',
+                'Desember'
+            ];
+
+        $month = $month_list[$get_month-1];
+
+        return view('app.surat1b.surat', ['surat'=>$surat, 'keperluan'=>$keperluan_data, 'bulan'=>$month]);
+    }
 
     /* END CRUD SURAT1B - SURAT EKSTERNAL */
 
+
+    public function history(){
+
+        $student_id = Auth::guard('student')->id();
+        $detail_surat = DetailSurat::where('user_id', $student_id)->orderBy('created_at', 'desc')->get();
+        $get_date = DetailSurat::where('user_id', $student_id)->where('tipe_surat', '1B')->first();                    
+
+        $updateNotif = DetailSurat::where('user_id', $student_id)->where('user_notif', 1)->update(
+            array(
+                'user_notif'=>0,
+            )
+        );
+
+        $month_list = ['Januari', 
+                'Februari',
+                'Maret',
+                'April',
+                'Mei',
+                'Juni',
+                'Juli',
+                'Agustus',
+                'September',
+                'Oktober',
+                'November',
+                'Desember'
+            ];
+
+        // $month = $month_list[$get_month-1];
+
+        return view('app.history', ['detail_surat'=>$detail_surat, 'get_date'=>$get_date]);
+    }
 
 
     /**
@@ -339,7 +396,7 @@ class SuratController extends Controller
             $surat->nama = $request->nama;
             $surat->nim = $request->nim;
             $surat->angkatan  = $request->angkatan;
-            $surat->admin_notif = 1;
+            $surat->notif = 1;
                       
             $surat->save();
             

@@ -5,7 +5,8 @@ namespace App\Http\Controllers;
 use Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
-use App\SuratTest;
+use App\Surat1A;
+use App\Surat1B;
 use App\Student;
 
 class AdminController extends Controller
@@ -16,7 +17,12 @@ class AdminController extends Controller
     }
 
     public function admin(){
-        return view('admin.admin');
+        $surat1A = Surat1A::all();
+        $count1A = count($surat1A);
+        $surat1B = Surat1B::all();
+        $count1B = count($surat1B);    
+
+        return view('admin.admin', ['surat1A'=>$count1A, 'surat1B'=>$count1B]);
     }
 
 
@@ -41,23 +47,24 @@ class AdminController extends Controller
         }
     }
 
+    public function showIfAuth(){
+        if(Auth::guard('admin')->check()){
+            return redirect('/admin/dashboard');
+        }
+        return view('admin.login');
+
+    }
+
      public function logout(Request $request) {
         Auth::guard('admin')->logout();
         return redirect('/admin/login');
     }
-
-    public function showSuratMasuk(){            
-        $student = SuratTest::with('student')->get();
-        
-        return view('admin.surat1-suratMasuk', ['surat'=>$student]);
-    }
-
-    public function editSuratMasuk($id){
-        $data = $id;
-        return view('admin.surat1-editSuratMasuk', ['data'=>$data]);
-    }
+    
 
     public function showAdminLogin(){
+        if(Auth::guard('admin')->check()){
+            return redirect('/admin/dashboard');
+        }
         return view('admin.login');
     }
 
@@ -65,15 +72,6 @@ class AdminController extends Controller
     public function history(){
         $admin= Auth::guard('admin')->user();
         return view('admin.history');
-    }
-
-    public function historyView(){
-
-    }
-
-    public function buatSurat($id){
-        $data = $id;
-        return view('admin.surat1-buatSurat',['data'=>$data]);
     }
 
     public function updateNotifAdmin($id)    

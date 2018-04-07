@@ -1,8 +1,8 @@
-@extends('layouts.master')
+@extends('layouts.admin-master')
 
-@section('form')
+@section('admin')
 <h3 class="page-title">Surat Eksternal</h3>
-<form method="POST" action="{{route('updateSurat1B', $data)}}">
+<form method="POST" action="{{route('admin.updateSurat1B', $surat->id)}}">
 	{{csrf_field()}}
 
 	@if(count($errors) > 0)
@@ -10,6 +10,12 @@
 			<div class="alert alert-danger">{{$error}}</div>
 		@endforeach
 	@endif
+	<label>Nama</label>
+	<input class="form-control input-lg" placeholder="" type="text" name="nama" value="{{$surat->nama}}">
+	<br>	
+	<label>NIM</label>
+	<input class="form-control input-lg" placeholder="" type="text" name="nim" value="{{$surat->nim}}">
+	<br>	
 	<label>Bidang Pilihan</label>
 	<input class="form-control input-lg" placeholder="" type="text" name="bidang_pilihan" value="{{$surat->bidang_pilihan}}">
 	<br>
@@ -27,26 +33,30 @@
 	<br>		
 	<label>No.Telepon Instansi</label>
 	<input class="form-control input-lg" placeholder="" type="text" name="telp_instansi" value="{{$surat->telp_instansi}}">
-	<br>			
+	<br>				
 	<label>Instansi Tujuan</label>
-	<input class="form-control input-lg" placeholder="" type="text" name="instansi_tujuan" value="{{$surat->instansi_tujuan}}"> 
+	<input class="form-control input-lg" placeholder="" type="text" name="instansi_tujuan" value="{{$surat->instansi_tujuan}}"><label>Keperluan</label>		
+	<select class="form-control" name="alasan_keperluan">
+		<option value="Tesis">Penilitian dan Penulisan Tesis</option>
+		<option value="Proposal Tesis">Penilitian dan Penulisan Proposal Tesis</option>
+	</select>
+	<br>
+	<label>Judul Tesis</label>
+	<input type="text" name="judul_tesis" class="form-control" value="{{$surat->judul_tesis}}">
+	<br>
 	<label>Alamat Tujuan</label>
 	<input class="form-control input-lg" placeholder="" type="text" name="alamat_tujuan" value="{{$surat->alamat_tujuan}}">
 	<br>
-	<select class="form-control" name="alasan_keperluan">
-		<option value="Penulisan Tesis">Penulisan Proposal Tesis</option>
-		<option value="Penulisan Proposal Tesis">Penulisan Proposal Tesis</option>
-	</select>
-	<br>
 	<label>Keperluan Data</label>
-	@foreach($keperluan_data as $data)						
-		<input class="form-control input-lg" placeholder="" type="text" name="keperluan_data[]" value="{{$data}}">		
+	@foreach($keperluan_data as $data)
+	<input class="form-control input-lg" placeholder="" type="text" name="keperluan_data[]" value="{{$data}}">	
 	@endforeach
-	@if(count($keperluan_data) < 4)			
-			@for($max = 4; $max > count($keperluan_data); $max--)
-			<input class="form-control input-lg" placeholder="optional" type="text" name="keperluan_data[]">
-			@endfor
-		@endif
+	@if(count($keperluan_data) < 4)
+		@for($i = count($keperluan_data); $i < 4; $i++)
+			<input class="form-control input-lg" placeholder="Opsional" type="text" name="keperluan_data[]">	
+		@endfor
+	@endif
+	<br>	
 	<br>
 	<span class="input-group-btn"><button class="btn btn-primary" type="submit">Save</button></span>
 </form>

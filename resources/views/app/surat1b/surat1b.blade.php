@@ -6,8 +6,10 @@
 	<h3 class="page-title"><a href="{{route('createSurat1B')}}"><button type="button" class="btn btn-success">Buat Surat</button></a></h3>
 </div>
 
+@php
+	$i = 1;	
+@endphp
 <div class="panel">
-
 	@if(Session::has('success'))
 		<div id="toastr-demo">				
 		</div>
@@ -15,7 +17,8 @@
 	<div class="panel-body">
 		<table id="table-surat" class="display" style="width:100%">
 			<thead>
-				<tr>					
+				<tr>			
+					<th>No.</th>		
 					<th>Keperluan Data</th>
 					<th>Instansi Tujuan</th>
 					<th>Tanggal Diajukan</th>					
@@ -23,15 +26,18 @@
 				</tr>
 			</thead>
 			<tbody>
-			@foreach($surat as $srt)		
-				<tr>									
-					<td>{{$srt->keperluan_data}}</td>					
-					<td>{{$srt->instansi_tujuan}}</td>
-					<td>{{$srt->created_at}}</td>
-					<td>
-						<a target="_blank" href="{{route('viewSurat', $srt->id)}}"><button type="button" class="btn btn-primary btn-sm">View</button></a>
-						<a href="{{route('editSurat1B', $srt->id)}}"><button type="button" class="btn btn-warn btn-sm">Edit</button></a>
-						<a href="{{route('deleteSurat1B', $srt->id)}}" class="deleteSurat"><button type="button" class="btn btn-danger btn-sm">Delete</button></a>
+			@foreach($surat as $srt)	
+			@php				
+				$surat1b = DB::table('surat_1_b')->where('id', $srt->id_surat)->first();
+			@endphp	
+				<tr>		
+					<td>{{$i++}}</td>							
+					<td>{{$surat1b->keperluan_data}}</td>					
+					<td>{{$surat1b->instansi_tujuan}}</td>
+					<td>{{$surat1b->created_at}}</td>
+					<td>						
+						<a href="{{route('editSurat1B', $srt->id_surat)}}" title="Edit" class="btn btn-warning btn-sm"><i class="fa fa-edit"></i></a>
+						<a onclick="return confirm('Apakah anda yakin akan menghapus surat ini?')" href="{{route('deleteSurat1B', $srt->id_surat)}}" title="Hapus" class="btn btn-danger btn-sm"><i class="fa fa-trash-o"></i></a>
 					</td>
 				</tr>				
 			@endforeach	

@@ -1,23 +1,22 @@
-@extends('layouts.master')
+@extends('layouts.admin-master')
 
-@section('form')
+@section('admin')
 <h3 class="page-title">Surat Internal</h3>
-<form method="POST" action="{{route('storeSurat1A', $student->id)}}">
+<form method="POST" action="{{route('admin.storeSurat1A', $student->id)}}">
 	{{csrf_field()}}
-
 	@if(count($errors) > 0)
 		@foreach($errors->all() as $error)
 			<div class="alert alert-danger">{{$error}}</div>
 		@endforeach
-	@endif
+	@endif	
 	<label>Nama</label>
-	<input class="form-control input-lg" placeholder="" type="text" name="nama" value="{{$student->nama}}" disabled="True">
+	<input class="form-control input-lg" placeholder="" type="text" name="nama" value="{{$student->nama}}">
 	<br>	
 	<label>NIM</label>
-	<input class="form-control input-lg" placeholder="" type="text" name="nim" value="{{$student->nim}}" disabled="True">
+	<input class="form-control input-lg" placeholder="" type="text" name="nim" value="{{$student->nim}}">
 	<br>	
 	<label>Bidang Pilihan</label>
-	<input class="form-control input-lg" placeholder="" type="text" name="bidang_pilihan" value="{{$student->bidang_pilihan}}" disabled="True">
+	<input class="form-control input-lg" placeholder="" type="text" name="bidang_pilihan" value="{{$student->bidang_pilihan}}">
 	<br>
 	<label>Alamat Rumah</label>
 	<input class="form-control input-lg" placeholder="" type="text" value="{{$student->alamat_rumah}}" name="alamat_rumah">
@@ -33,7 +32,7 @@
 	<br>		
 	<label>No.Telepon Instansi</label>
 	<input class="form-control input-lg" placeholder="Opsional" type="text" name="telp_instansi" value="{{$student->telepon_instansi}}">
-	<br>	
+	<br>		
 	<label>Keperluan Surat</label>
 	<input class="form-control input-lg" type="text" name="kegunaan">
 	<br>
@@ -42,7 +41,7 @@
 		<option value="Keterangan Aktif Kuliah"> Keterangan Aktif Kuliah</option>
 	</select>
 	<br>
-	<br>
-	<span class="input-group-btn"><button class="btn btn-primary" type="submit" onclick="return confirm('Apakah data yang anda masukan sudah benar?')">Save</button></span>
+	<br>		
+	<span class="input-group-btn"><button class="btn btn-primary" type="submit">Save</button></span>
 </form>
 @endsection

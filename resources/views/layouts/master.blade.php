@@ -23,7 +23,8 @@
 <body>
 
     @php
-        $notif = DB::table('surat_test')->where('user_notif', '1')->get();
+        $user_id = Auth::guard('student')->user()->id;
+        $notif = DB::table('detail_surat')->where('user_id', $user_id)->where('user_notif', '1')->take(5)->get();                
     @endphp
     <!-- WRAPPER -->
     <div id="wrapper">
@@ -46,11 +47,51 @@
                                 <span class="badge bg-danger">             
                                     {{count($notif)}}                                                 
                                 </span>
-                                @endif
-                                    
+                                @endif                                    
                             </a>
-                            <ul class="dropdown-menu notifications">
-                                <li><a href="#" class="notification-item"><span class="dot bg-warning"></span>System space is almost full</a></li>                                                                
+                            <ul class="dropdown-menu notifications">                    
+                            @if(count($notif) > 0)        
+                                @foreach($notif as $ntf)                                    
+                                    @if($ntf->status == 1)                                    
+                                        @php                                            
+                                            $status = "diterima";
+                                            if($ntf->tipe_surat == "1A"){
+                                                $tipe = "internal";
+                                            }
+                                            else{
+                                                $tipe = "eksternal";                                            
+                                            }
+                                        @endphp                                        
+                                <li><a href="{{route('history')}}" class="notification-item">
+                                    @if($ntf->status == 1)
+                                    <span class="dot bg-success"></span>
+                                    @elseif($ntf->status == 2)
+                                    <span class="dot bg-danger"></span>
+                                    @endif
+                                    Pengajuan surat {{$tipe}} anda telah {{$status}}
+                                </a></li>   
+                                    @elseif($ntf->status == 2)
+                                        @php                                            
+                                            $status = "ditolak";
+                                            if($ntf->tipe_surat == "1A"){
+                                                $tipe = "internal";
+                                            }
+                                            else{
+                                                $tipe = "eksternal";                                            
+                                            }
+                                        @endphp
+                                <li><a href="{{route('history')}}" class="notification-item">
+                                        @if($ntf->status == 1)
+                                        <span class="dot bg-success"></span>
+                                        @elseif($ntf->status == 2)
+                                        <span class="dot bg-danger"></span>
+                                        @endif
+                                        Pengajuan surat {{$tipe}} anda telah {{$status}}                                    
+                                    @endif
+                                @endforeach                                 
+                                @else
+                                <li><a class="notification-item">Tidak ada pemberitahuan</a></li>
+                                @endif
                             </ul>
                         </li>
                         <!-- Might use this dropdown later -->
@@ -64,7 +105,7 @@
                             </ul>
                         </li> -->
                         <li class="dropdown">
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown"><img src="{{asset('assets/img/user.png')}}" class="img-circle" alt="Avatar"> <span>{{Auth::guard('student')->user()->nama}}</span> <i class="icon-submenu lnr lnr-chevron-down"></i></a>
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown"> <span>{{Auth::guard('student')->user()->nama}}</span> <i class="icon-submenu lnr lnr-chevron-down"></i></a>
                             <ul class="dropdown-menu">
                                 <li><a href="#"><i class="lnr lnr-user"></i> <span>My Profile</span></a></li>
                                 <li><a href="#"><i class="lnr lnr-envelope"></i> <span>Message</span></a></li>
@@ -117,11 +158,7 @@
         </div>
         <!-- END MAIN -->
         <div class="clearfix"></div>
-        <footer>
-            <div class="container-fluid">
-                <p class="copyright">&copy; 2017 <a href="https://www.themeineed.com" target="_blank">Theme I Need</a>. All Rights Reserved.</p>
-            </div>
-        </footer>
+       
     </div>
     <!-- END WRAPPER -->
     <!-- Javascript -->    

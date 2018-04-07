@@ -1,8 +1,8 @@
-@extends('layouts.master')
+@extends('layouts.admin-master')
 
-@section('form')
+@section('admin')
 	<h3 class="page-title">Surat Internal</h3>
-	<form method="POST" action="{{route('updateSurat1A', $data)}}">
+	<form method="POST" action="{{route('admin.updateSurat1A', $data)}}">
 		{{csrf_field()}}
 
 		@if(count($errors) > 0)
@@ -10,13 +10,13 @@
 				<div class="alert alert-danger">{{$error}}</div>
 			@endforeach
 		@endif
-		<input class="form-control input-lg" placeholder="" type="text" name="nama" value="{{$nama}}" disabled="True">
+		<input class="form-control input-lg" placeholder="" type="text" name="nama" value="{{$nama}}">
 		<br>	
 		<label>NIM</label>
-		<input class="form-control input-lg" placeholder="" type="text" name="nim" value="{{$nim}}" disabled="True">
+		<input class="form-control input-lg" placeholder="" type="text" name="nim" value="{{$nim}}">
 		<br>	
 		<label>Bidang Pilihan</label>
-		<input class="form-control input-lg" placeholder="" type="text" name="bidang_pilihan" value="{{$bidang_pilihan}}" disabled="True">
+		<input class="form-control input-lg" placeholder="" type="text" name="bidang_pilihan" value="{{$bidang_pilihan}}">
 		<label>Alamat Rumah</label>
 		<input class="form-control input-lg" placeholder="" value="{{$surat->alamat_rumah}}" type="text" name="alamat_rumah">
 		<br>
@@ -31,7 +31,6 @@
 		<br>		
 		<label>No.Telepon Instansi</label>
 		<input class="form-control input-lg" placeholder="" value="{{$surat->telp_instansi}}" type="text" name="telp_instansi">
-		<br>		
 		<label>Keperluan Surat</label>
 		<input class="form-control input-lg" type="text" name="kegunaan" value="{{$surat->kegunaan_surat}}">
 		<br>
@@ -40,7 +39,7 @@
 			<option value="Keterangan Aktif Kuliah"> Keterangan Aktif Kuliah</option>
 		</select>
 		<br>
-		<br>
+		<br>					
 		<span class="input-group-btn"><button class="btn btn-primary" type="submit">Save</button></span>
 	</form>
 

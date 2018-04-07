@@ -9,7 +9,15 @@ use App\Surat1A;
 
 class Student extends Authenticatable
 {
-    protected $table = 'student';    
+    protected $table = 'student'; 
+
+    protected $fillable = [
+    	'nama',
+    	'nim',
+    	'bidang_pilihan',
+    	'password',
+    	
+    ];
 
     public function surat()
     {

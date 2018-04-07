@@ -2,7 +2,7 @@
 <html lang="en">
 
 <head>
-    <title>Dashboard | Klorofil - Free Bootstrap Dashboard Template</title>
+    <title>@yield('title')</title>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
@@ -10,7 +10,9 @@
     <link rel="stylesheet" href="{{asset('assets/vendor/bootstrap/css/bootstrap.min.css')}}">
     <link rel="stylesheet" href="{{asset('assets/vendor/font-awesome/css/font-awesome.min.css')}}">
     <link rel="stylesheet" href="{{asset('assets/vendor/linearicons/style.css')}}">
-    <link rel="stylesheet" href="{{asset('assets/vendor/chartist/css/chartist-custom.css')}}">
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.16/css/jquery.dataTables.css">        
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/css/select2.min.css" rel="stylesheet" />
+    <link href="https://gitcdn.github.io/bootstrap-toggle/2.2.2/css/bootstrap-toggle.min.css" rel="stylesheet">
     <!-- MAIN CSS -->
     <link rel="stylesheet" href="{{asset('assets/css/main.css')}}">
     <!-- FOR DEMO PURPOSES ONLY. You should remove this in your project -->
@@ -24,7 +26,8 @@
 
 <body>
     @php
-        $notif = DB::table('surat_test')->where('admin_notif', '1')->get();        
+        $notif = DB::table('detail_surat')->where('notif', '1')->get();   
+        $notif_drop = DB::table('detail_surat')->where('notif' , '1')->take(5)->get();                
     @endphp
     <!-- WRAPPER -->
     <div id="wrapper">
@@ -50,11 +53,22 @@
                                 @endif
                             </a>                                                        
                                 <ul class="dropdown-menu notifications">                                    
-                                    @if(count($notif) > 0)                                
-                                        
-                                            @foreach($notif as $ntf)
-                                                <li><a href="{{route('notifAdmin', $ntf->id)}}" class="notification-item"><span class="dot bg-warning"></span>System space is almost full</a></li>
-                                            @endforeach                                                                
+                                    @if(count($notif) > 0)                            
+                                        @foreach($notif_drop as $ntf)                         
+                                            @if($ntf->tipe_surat == "1A" )
+                                                @php
+                                                    $surat1a = DB::table('surat_1_a')->where('id', $ntf->id_surat)->first();                                            
+                                                    $jenis = "Surat Internal";
+                                                @endphp
+                                                    <li><a href="{{route('admin.showSurat1A')}}" class="notification-item">{{$surat1a->nama}} Telah Mengajukan {{$jenis}}</a></li>
+                                            @else
+                                                @php
+                                                    $surat1b = DB::table('surat_1_b')->where('id', $ntf->id_surat)->first(); 
+                                                    $jenis = "Surat Eksternal";                                            
+                                                @endphp
+                                                    <li><a href="{{route('admin.showSurat1B')}}" class="notification-item">{{$surat1b->nama}} Telah Mengajukan {{$jenis}}</a></li>
+                                            @endif                                                               
+                                        @endforeach
                                     @else
                                     <li><a class="notification-item">Tidak ada notifikasi</a></li>
                                     @endif                                    
@@ -71,7 +85,7 @@
                             </ul>
                         </li> -->
                         <li class="dropdown">
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown"><img src="{{asset('assets/img/user.png')}}" class="img-circle" alt="Avatar"> <span>{{Auth::guard('admin')->user()->name}}</span> <i class="icon-submenu lnr lnr-chevron-down"></i></a>
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown"><!-- <img src="{{asset('assets/img/user.png')}}" class="img-circle" alt="Avatar">  --><span>{{Auth::guard('admin')->user()->name}}</span> <i class="icon-submenu lnr lnr-chevron-down"></i></a>
                             <ul class="dropdown-menu">
                                 <li><a href="#"><i class="lnr lnr-user"></i> <span>My Profile</span></a></li>
                                 <li><a href="#"><i class="lnr lnr-envelope"></i> <span>Message</span></a></li>
@@ -97,19 +111,31 @@
                             <a href="#subPagesAdmin" data-toggle="collapse" class="collapsed"><i class="lnr lnr-user"></i> <span>Surat Masuk</span > <i class="icon-submenu lnr lnr-chevron-left"></i></a>
                             <div id="subPagesAdmin" class="collapse ">
                                 <ul class="nav">
-                                    <li><a href="/admin/surat-masuk/surat-1">Lihat Surat 1</a></li>                                    
+                                    <li><a href="{{route('admin.showSurat1A')}}">Surat Internal</a></li>
+                                    <li><a href="{{route('admin.showSurat1B')}}">Surat Eksternal</a></li>                                    
                                </ul>
                             </div>
                         </li>                                                              
                         <li>
-                            <a href="#subPages" data-toggle="collapse" class="collapsed"><i class="lnr lnr-inbox"></i> <span>Buat Surat</span> <i class="icon-submenu lnr lnr-chevron-left"></i></a>
-                            <div id="subPages" class="collapse ">
+                            <a href="#createSurat" data-toggle="collapse" class="collapsed"><i class="lnr lnr-inbox"></i> <span>Buat Surat</span> <i class="icon-submenu lnr lnr-chevron-left"></i></a>
+                            <div id="createSurat" class="collapse ">
                                 <ul class="nav">
-                                    <li><a href="{{route('admin.showSurat1')}}" class="">Surat 1</a></li>                           
+                                    <li><a href="{{route('admin.pengajuSurat1A')}}">Surat Internal</a></li>                           
+                                    <li><a href="{{route('admin.pengajuSurat1B')}}">Surat Eksternal</a></li>
+                                    <li><a href="{{route('admin.penanggungJawab')}}">Penanggung Jawab</a></li>                         
                                 </ul>
                             </div>
                         </li>  
-                        <li><a href="{{route('admin.history')}}"><i class="fa fa-history" ></i><span>Riwayat Surat</span></a></li>                         
+                        <li>
+                            <a href="#Mahasiswa" data-toggle="collapse" class="collapsed"><i class="fa fa-users"></i> <span>Mahasiswa</span> <i class="icon-submenu lnr lnr-chevron-left"></i></a>
+                            <div id="Mahasiswa" class="collapse ">
+                                <ul class="nav">
+                                    <li><a href="{{route('admin.showMahasiswa')}}">Data Mahasiswa</a></li>                           
+                                    <li><a href="{{route('admin.createMahasiswa')}}">Tambah Mahasiswa</a></li>                           
+                                </ul>
+                            </div>
+                        </li>  
+                        <li><a href="{{route('admin.history')}}"><i class="fa fa-history" ></i><span>Riwayat Surat</span></a></li>                        
                     </ul>
                 </nav>
             </div>
@@ -119,12 +145,8 @@
         <div class="main">
             <!-- MAIN CONTENT -->
             <div class="main-content">
-                <div class="panel-body">
-                    @yield('dashboard')       
-                    @yield('form')    
-                    @yield('login')   
-                    @yield('tabel')            
-                    @yield('history') 
+                <div class="panel-body">                                        
+                    @yield('login')                                           
                     @yield('admin')                    
                 </div>
             </div>
@@ -143,5 +165,20 @@
     <script src="{{asset('assets/vendor/jquery/jquery.min.js')}}"></script>
     <script src="{{asset('assets/vendor/bootstrap/js/bootstrap.min.js')}}"></script>    
     <script src="{{asset('assets/scripts/klorofil-common.js')}}"></script>
+    <script type="text/javascript" src="https://code.jquery.com/jquery-1.12.4.js"></script>
+    <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.16/js/jquery.dataTables.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/js/select2.min.js"></script>
+    <script src="https://gitcdn.github.io/bootstrap-toggle/2.2.2/js/bootstrap-toggle.min.js"></script>
+    
+    <!-- DataTable JS -->
+    <script>
+        $(document).ready(function() {
+            $('#table-surat').DataTable();
+        } );
+
+        $(document).ready(function() {
+            $('#select2-js').select2();
+        });
+    </script>          
 </body>
 </html>

@@ -1,43 +1,70 @@
 @extends('layouts.admin-master')
 
-@section('history')
+@section('title','Riwayat Surat')
+
+@section('admin')
+<?php $i = 1; ?>
 <div class="panel">
 	<div class="panel-heading">
-		<h3 class="panel-title">History</h3>
+		<h2 class="panel-title">History</h2>
 	</div>
 	<div class="panel-body">
-		<table class="table table-bordered">
+		<table id="table-surat">
 			<thead>
 				<tr>
-					<th>#</th>					
-					<th>Jenis Surat</th>
-					<th>Waktu Pengajuan</th>
+					<th>No.</th>
+					<th>Pengaju</th>									
+					<th>Keperluan Surat</th>					
+					<th>Tanggal Pengajuan</th>
 					<th>Status Surat</th>	
+					<th>Keterangan</th>
 					<th>Aksi</th>				
 				</tr>
 			</thead>
-			<tbody>
-				<tr>
-					<td>1</td>
-					<td>Surat 1</td>
-					<td>5 Desember 2017</td>
-					<td><span class="label label-success">Diterima</span></td>
-					<td><a href="/sejarah-surat/lihat/1"><button class="btn btn-info btn-xs"><i class="fa fa-eye fa-fw"></i><span>Lihat</span>
+			<tbody>	
+			@foreach($surat as $data)										
+				@php
+					$surat1a = DB::table('surat_1_a')->where('id', $data->id_surat)->first();
+					$surat1b = DB::table('surat_1_b')->where('id', $data->id_surat)->first();					
+				@endphp
+				<tr>					
+					<td>{{$i++}}</td>
+					<td>
+						@if($data->tipe_surat == "1A")
+							{{$surat1a->nama}}
+						@else
+							{{$surat1b->nama}}
+						@endif
+					</td>
+					<td>
+						@if($data->tipe_surat == "1A")
+							{{$surat1a->keperluan}}
+						@else
+							{{$surat1b->keperluan_data}}
+						@endif
+					</td>					
+					<td>{{$data->created_at}}</td>
+					@if($data->status == 1)					
+					<td><span class="label label-success">Berhasil Diproses</span></td>											
+					@elseif($data->status == 2)	
+					<td><span class="label label-danger">Ditolak</span></td>											
+					@endif
+					<td>{{$data->comment}}</td>
+					<td width="15%" align="center">
+						@if($data->tipe_surat == "1A")
+							@if($data->status == 1)						
+								<a target="_blank" href="{{route('admin.viewSurat1A', $surat1a->id)}}" class="btn btn-primary btn-xs" title="Lihat"><i class="fa fa-eye"></i></a>							
+							@endif
+						<a href="{{route('admin.editSurat1A', $surat1a->id)}}" title="Edit" class="btn btn-warning btn-xs"><i class="fa fa-edit" disabled></i></a>
+						@else
+							@if($data->status == 1)
+								<a target="_blank" href="{{route('admin.viewSurat1B', $surat1b->id)}}" class="btn btn-primary btn-xs" title="Lihat"><i class="fa fa-eye"></i></a>
+							@endif
+						<a href="{{route('admin.editSurat1B', $surat1b->id)}}" title="Edit" class="btn btn-warning btn-xs"><i class="fa fa-edit"></i></a>
+						@endif
+					</td>
 				</tr>
-				<tr>
-					<td>2</td>
-					<td>Surat 2</td>
-					<td>5 Desember 2017</td>
-					<td><span class="label label-default">Pending</span></td>
-					<td><a href="/sejarah-surat/lihat/1"><button class="btn btn-info btn-xs"><i class="fa fa-eye fa-fw"></i><span>Lihat</span>
-				</tr>
-				<tr>
-					<td>3</td>
-					<td>Surat 2</td>
-					<td>10 Desember 2017</td>
-					<td><span class="label label-default">Pending</span></td>
-					<td><a href="/sejarah-surat/lihat/1"><button class="btn btn-info btn-xs"><i class="fa fa-eye fa-fw"></i><span>Lihat</span></button></a></td>
-				</tr>
+			@endforeach
 			</tbody>
 		</table>
 	</div>
