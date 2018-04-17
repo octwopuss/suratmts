@@ -17,6 +17,9 @@
         -moz-box-sizing: border-box;
     }
 
+    .custom-line{
+        line-height: 1pt;
+    }    
     .page {
         width: 210mm;
         min-height: 297mm;
@@ -130,8 +133,8 @@
 			</tr>
 		</table>
 		<br>
-		<p>Kami mohon dengan hormat kesediaan Bapak/Ibu memberikan bantuan data berupa
-            @if(count($keperluan_data) > 1)
+		<p>Kami mohon dengan hormat kesediaan Bapak/Ibu memberikan bantuan data berupa            
+            @if(count($keperluan_data) > 1)            
             :<br>
             <?php $i = 1; ?>                        
                  @foreach($keperluan_data as $data)   
@@ -141,7 +144,7 @@
             {{strtolower($keperluan_data[0])}}
             <br>
             @endif          
-        <br>  
+
 		Demikian Permohonan ini disampaikan, atas perhatian dan bantuan yang Bapak\Ibu berikan diucapkan terima kasih.
         </p>                    
 

@@ -13,8 +13,9 @@
 			<thead>
 				<tr>
 					<th>No.</th>
-					<th>Pengaju</th>									
-					<th>Keperluan Surat</th>					
+					<th>Pengaju</th>						
+					<th>Keperluan Surat</th>
+					<th>No. Surat</th>					
 					<th>Tanggal Pengajuan</th>
 					<th>Status Surat</th>	
 					<th>Keterangan</th>
@@ -23,9 +24,9 @@
 			</thead>
 			<tbody>	
 			@foreach($surat as $data)										
-				@php
+				@php					
 					$surat1a = DB::table('surat_1_a')->where('id', $data->id_surat)->first();
-					$surat1b = DB::table('surat_1_b')->where('id', $data->id_surat)->first();					
+					$surat1b = DB::table('surat_1_b')->where('id', $data->id_surat)->first();									$nomor_surat = DB::table('nomor_surat')->where('tipe_surat', $data->tipe_surat)->where('id_surat', $data->id_surat)->first();
 				@endphp
 				<tr>					
 					<td>{{$i++}}</td>
@@ -41,6 +42,11 @@
 							{{$surat1a->keperluan}}
 						@else
 							{{$surat1b->keperluan_data}}
+						@endif
+					</td>
+					<td>
+						@if($data->status == 1)
+							{{$nomor_surat->nomor}}						
 						@endif
 					</td>					
 					<td>{{$data->created_at}}</td>

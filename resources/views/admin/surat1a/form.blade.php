@@ -42,6 +42,6 @@
 	</select>
 	<br>
 	<br>		
-	<span class="input-group-btn"><button class="btn btn-primary" type="submit">Save</button></span>
+	<span class="input-group-btn"><button class="btn btn-primary" type="submit" onclick="return confirm('Apakah data yang anda masukan sudah benar?')">Save</button></span>
 </form>
 @endsection

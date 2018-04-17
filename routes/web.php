@@ -33,16 +33,6 @@ Route::get('/user_notif', function(){
 	return redirect()->route('history');		
 });
 
-Route::prefix('table')->group(function(){
-	Route::get('/surat1', 'SuratController@index')->name('showSurat');
-	Route::post('/{id}/store', 'SuratController@store')->name('storeSurat');	
-	Route::get('/surat1/{id}/tambah', 'SuratController@create')->name('createSurat');
-	Route::get('/{id}/view', 'SuratController@show')->name('viewSurat');
-	Route::get('/{id}/edit', 'SuratController@editForm')->name('editSurat');	
-	Route::post('/{id}/update', 'SuratController@update')->name('updateSurat');
-	Route::get('/{id}/delete', 'SuratController@destroy')->name('deleteSurat');
-});
-
 Route::prefix('surat-internal')->group(function(){
 	Route::get('/', 'SuratController@indexSurat1A')->name('showSurat1A');
 	Route::get('/create', 'SuratController@create1A')->name('createSurat1A');
@@ -81,6 +71,15 @@ Route::prefix('admin')->group(function(){
 		Route::get('/{id}/edit', 'MahasiswaController@editMahasiswa')->name('admin.editMahasiswa');
 		Route::post('/{id}/update', 'MahasiswaController@updateMahasiswa')->name('admin.updateMahasiswa');
 		Route::get('/{id}/delete', 'MahasiswaController@deleteMahasiswa')->name('admin.deleteMahasiswa');
+	});
+
+	Route::prefix('surat-masuk')->group(function(){
+		Route::get('/', 'SuratAdminController@indexSuratMasuk')->name('admin.showSuratMasuk');
+		Route::get('/tambah', 'SuratAdminController@addSuratMasuk')->name('admin.addSuratMasuk');
+		Route::post('/store', 'SuratAdminController@storeSuratMasuk')->name('admin.storeSuratMasuk');
+		Route::get('/{id}/edit', 'SuratAdminController@editSuratMasuk')->name('admin.editSuratMasuk');
+		Route::post('/{id}/update', 'SuratAdminController@updateSuratMasuk')->name('admin.updateSuratMasuk');
+		Route::get('/{id}/delete', 'SuratAdminController@deleteSuratMasuk')->name('admin.deleteSuratMasuk');			
 	});
 
 	Route::prefix('surat-internal')->group(function(){
@@ -132,14 +131,23 @@ Route::get('/test', function(){
 	return " "	;
 });
 
-Route::get('/test2', function(){			
-	
-	return view('admin.surat1b.tes');
+
+Route::get('/test2', function(){
+	$current = date('Y');
+	$no_last = 80;
+	$target = 2090;	
+
+	if($current < $target){
+		$no_last = 1;
+		$current = $target;
+	}
+	$data = [$current, $no_last];	
+	return $data;
+
 });
 
-
 Route::get('/random', function(){
-	return view('admin.surat1a.suratKeterangan');
+	
 })->name('admin.tes');
 
 Route::get('/table/{data}', 'SuratAdminController@table');

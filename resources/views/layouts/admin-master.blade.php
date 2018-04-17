@@ -87,9 +87,6 @@
                         <li class="dropdown">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown"><!-- <img src="{{asset('assets/img/user.png')}}" class="img-circle" alt="Avatar">  --><span>{{Auth::guard('admin')->user()->name}}</span> <i class="icon-submenu lnr lnr-chevron-down"></i></a>
                             <ul class="dropdown-menu">
-                                <li><a href="#"><i class="lnr lnr-user"></i> <span>My Profile</span></a></li>
-                                <li><a href="#"><i class="lnr lnr-envelope"></i> <span>Message</span></a></li>
-                                <li><a href="#"><i class="lnr lnr-cog"></i> <span>Settings</span></a></li>
                                 <li><a href="{{route('admin.logout')}}"><i class="lnr lnr-exit"></i> <span>Logout</span></a></li>
                             </ul>
                         </li>
@@ -108,14 +105,23 @@
                     <ul class="nav">
                         <li><a href="/admin/dashboard" class="active"><i class="lnr lnr-home"></i> <span>Dasbor</span></a>
                         <li>
-                            <a href="#subPagesAdmin" data-toggle="collapse" class="collapsed"><i class="lnr lnr-user"></i> <span>Surat Masuk</span > <i class="icon-submenu lnr lnr-chevron-left"></i></a>
+                            <a href="#suratMasuk" data-toggle="collapse" class="collapsed"><i class="lnr lnr-envelope"></i> <span>Surat Masuk</span><i class="icon-submenu lnr lnr-chevron-left"></i></a>
+                            <div id="suratMasuk" class="collapse">
+                                <ul class="nav">
+                                    <li><a href="{{route('admin.showSuratMasuk')}}">Daftar Surat Masuk</a></li>
+                                    <li><a href="{{route('admin.addSuratMasuk')}}">Buat Surat Masuk</a></li>
+                                </ul>
+                            </div>
+                        </li>
+                        <li>
+                            <a href="#subPagesAdmin" data-toggle="collapse" class="collapsed"><i class="lnr lnr-user"></i> <span>Formulir Pengajuan</span > <i class="icon-submenu lnr lnr-chevron-left"></i></a>
                             <div id="subPagesAdmin" class="collapse ">
                                 <ul class="nav">
                                     <li><a href="{{route('admin.showSurat1A')}}">Surat Internal</a></li>
                                     <li><a href="{{route('admin.showSurat1B')}}">Surat Eksternal</a></li>                                    
                                </ul>
                             </div>
-                        </li>                                                              
+                        </li>                                                                               
                         <li>
                             <a href="#createSurat" data-toggle="collapse" class="collapsed"><i class="lnr lnr-inbox"></i> <span>Buat Surat</span> <i class="icon-submenu lnr lnr-chevron-left"></i></a>
                             <div id="createSurat" class="collapse ">
@@ -135,7 +141,7 @@
                                 </ul>
                             </div>
                         </li>  
-                        <li><a href="{{route('admin.history')}}"><i class="fa fa-history" ></i><span>Riwayat Surat</span></a></li>                        
+                        <li><a href="{{route('admin.history')}}"><i class="fa fa-history" ></i><span>Riwayat Surat Keluar</span></a></li>                        
                     </ul>
                 </nav>
             </div>
@@ -153,12 +159,7 @@
             <!-- END MAIN CONTENT -->
         </div>
         <!-- END MAIN -->
-        <div class="clearfix"></div>
-        <footer>
-            <div class="container-fluid">
-                <p class="copyright">&copy; 2017 <a href="https://www.themeineed.com" target="_blank">Theme I Need</a>. All Rights Reserved.</p>
-            </div>
-        </footer>
+        <div class="clearfix"></div>        
     </div>
     <!-- END WRAPPER -->
     <!-- Javascript -->
@@ -168,8 +169,7 @@
     <script type="text/javascript" src="https://code.jquery.com/jquery-1.12.4.js"></script>
     <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.16/js/jquery.dataTables.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/js/select2.min.js"></script>
-    <script src="https://gitcdn.github.io/bootstrap-toggle/2.2.2/js/bootstrap-toggle.min.js"></script>
-    
+    <script src="https://gitcdn.github.io/bootstrap-toggle/2.2.2/js/bootstrap-toggle.min.js"></script>    
     <!-- DataTable JS -->
     <script>
         $(document).ready(function() {

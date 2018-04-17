@@ -2,28 +2,24 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Support\Facades\Schema;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Http\UploadedFile;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use App\Surat1A;
 use App\Surat1B;
 use App\DetailSurat;
 use App\Student;
 use App\NomorSurat;
 use App\PenanggungJawab;
-use Illuminate\Support\Facades\DB;
+use App\SuratMasuk;
 use Auth;
 
-use Illuminate\Support\Facades\Schema;
-use Illuminate\Database\Schema\Blueprint;
 
 class SuratAdminController extends Controller
 {
-    public function table($data){        
-        Schema::create($data, function (Blueprint $table) {
-            $table->increments('id');
-        });
-        return "table success dibuat";
-    }
-
+   
 	/* Start crud surat internal */
 
     public function indexSurat1A(){
@@ -361,6 +357,7 @@ class SuratAdminController extends Controller
             'notif'=>0,
             'status'=>1,
             'user_notif'=>1,
+            'comment'=>"Surat berhasil diproses dan dapat diambil di prodi",
             )
         );
 
@@ -388,8 +385,9 @@ class SuratAdminController extends Controller
         $date = $surat->created_at;            
         $month = $month_list[$date->month-1];                
         $ttd = PenanggungJawab::where('active', 1)->first();
-        $array_data = explode(", ", $surat->keperluan_data);   
-        $keperluan_data = array_map('ucfirst', $array_data);        
+        $array_data = explode(",", $surat->keperluan_data);   
+        $keperluan_data = array_map('ucfirst', $array_data);               
+        // dd(count($keperluan_data));
         
         return view('admin.surat1b.permohonanBantuanData', [
             'nomor'=>$nomor, 
@@ -419,6 +417,84 @@ class SuratAdminController extends Controller
         return redirect()->route('admin.showSurat1B');
     }
     /* End crud surat eksternal */
+
+
+    /* SURAT MASUK */
+
+    public function indexSuratMasuk(){
+        $suratmasuk = SuratMasuk::orderBy('created_at', 'DESC')->get();
+
+        return view('admin.suratmasuk.suratmasuk',['suratmasuk'=>$suratmasuk]);
+    }
+
+    public function addSuratMasuk(){
+
+        return view('admin.suratmasuk.tambah');
+    }
+
+    public function storeSuratMasuk(Request $request){        
+        dd($request->scan_surat);
+        $request->validate([
+            "pengirim"=>"required",
+            "nomor_surat"=>"required",
+            "perihal"=>"required",
+            "tanggal"=>"required",            
+            "scan_surat"=>"required|image|mimes:jpeg,png,jpg,svg|max:2048"
+        ]);
+
+        $suratMasuk = new SuratMasuk();
+
+        $suratMasuk->pengirim = $request->pengirim;
+        $suratMasuk->nomor_surat = $request->nomor_surat;
+        $suratMasuk->perihal = $request->perihal;
+        $suratMasuk->tanggal = $request->tanggal;
+
+        if($request->hasFile('scan_surat')){            
+            $imageName = time().'.'.request()->scan_surat->getClientOriginalExtension();            
+            $request->scan_surat->move(public_path('gambar'), $imageName);            
+            $suratMasuk->file_surat = $imageName;            
+        }else{
+            return redirect()->route('admin.addSuratMasuk')->with('error', 'Upload Bukti file');
+        }
+        
+        $suratMasuk->save();
+
+        return redirect()->route('admin.showSuratMasuk');
+
+        // https://hdtuto.com/article/laravel-55-image-upload-example        
+    
+    }
+
+    public function editSuratMasuk($id){
+        $editsuratmasuk = SuratMasuk::where('id', $id)->first();
+
+        return view('admin.suratmasuk.editsuratmasuk', ['surat'=>$editsuratmasuk]);
+
+    }
+
+    public function updateSuratMasuk(Request $request, $id){
+        if($request->hasFile('scan_surat')){
+            $imageName = time().'.'.request()->scan_surat->getClientOriginalExtension();            
+            $request->scan_surat->move(public_path('gambar'), $imageName);             
+        }
+
+        $surat_masuk = SuratMasuk::where('id', $id)->update([
+            "pengirim"=>$request->pengirim,
+            "nomor_surat"=>$request->nomor_surat,
+            "perihal"=>$request->perihal,   
+            "tanggal"=>$request->tanggal,
+            "file_surat"=>$imageName,            
+        ]);
+
+        return redirect()->route('admin.showSuratMasuk');        
+    }
+
+    public function deleteSuratMasuk($id){    
+        $surat = SuratMasuk::find($id);
+        $surat->delete();
+        return redirect()->route('admin.showSuratMasuk')->with('success', 'Surat Berhasil di Hapus');
+    }
+    /* END SURAT MASUK */
 
 
     public function history(){

@@ -104,7 +104,7 @@
 		</table>
 		<br>
 		<p>terdaftar sebagai mahasiswa aktif Program Studi Magister Teknik Sipil Fakultas Teknik Universitas Lambung <br> Mangkurat Bidang Pilihan {{$surat->bidang_pilihan}} pada semester genap tahun akademik 2017/2018 dengan Nomor Induk Mahasiswa {{$surat->nim}}</p>
-        <p>Demikian surat keterangan ini dibuat untuk dipergunakan sebagai pengurusan {{$surat->kegunaan_surat}}</p>
+        <p>Demikian surat keterangan ini dibuat untuk dipergunakan sebagai {{strtolower($surat->kegunaan_surat)}}</p>
 		<div class="ttd" style="float:right;">
 			<p>{{$ttd->jabatan}},</p>
 			<br>
