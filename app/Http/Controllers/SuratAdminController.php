@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\DB;
 use App\Surat1A;
 use App\Surat1B;
@@ -15,6 +16,7 @@ use App\NomorSurat;
 use App\PenanggungJawab;
 use App\SuratMasuk;
 use Auth;
+use File;
 
 
 class SuratAdminController extends Controller
@@ -100,6 +102,7 @@ class SuratAdminController extends Controller
             'nomor' => 'required',            
         ]);
 
+        $nomor_terakhir = NomorSurat::where('tipe_surat','1A')->orderBy('created_at', 'desc')->first();
         $nomor_surat = new NomorSurat();
 
         $tipe_nomor = "UN8.4.1.31.1/KM";
@@ -387,7 +390,6 @@ class SuratAdminController extends Controller
         $ttd = PenanggungJawab::where('active', 1)->first();
         $array_data = explode(",", $surat->keperluan_data);   
         $keperluan_data = array_map('ucfirst', $array_data);               
-        // dd(count($keperluan_data));
         
         return view('admin.surat1b.permohonanBantuanData', [
             'nomor'=>$nomor, 
@@ -422,7 +424,7 @@ class SuratAdminController extends Controller
     /* SURAT MASUK */
 
     public function indexSuratMasuk(){
-        $suratmasuk = SuratMasuk::orderBy('created_at', 'DESC')->get();
+        $suratmasuk = SuratMasuk::orderBy('created_at', 'desc')->get();
 
         return view('admin.suratmasuk.suratmasuk',['suratmasuk'=>$suratmasuk]);
     }
@@ -433,13 +435,14 @@ class SuratAdminController extends Controller
     }
 
     public function storeSuratMasuk(Request $request){        
-        dd($request->scan_surat);
+       
+        
         $request->validate([
             "pengirim"=>"required",
             "nomor_surat"=>"required",
             "perihal"=>"required",
             "tanggal"=>"required",            
-            "scan_surat"=>"required|image|mimes:jpeg,png,jpg,svg|max:2048"
+            "scan_surat"=>"required|max:2048|image"
         ]);
 
         $suratMasuk = new SuratMasuk();
@@ -448,15 +451,17 @@ class SuratAdminController extends Controller
         $suratMasuk->nomor_surat = $request->nomor_surat;
         $suratMasuk->perihal = $request->perihal;
         $suratMasuk->tanggal = $request->tanggal;
+        if($request->hasFile('scan_surat')){
+            $file=$request->file('scan_surat');
+            $ext = $file->getClientOriginalExtension();
+            $fileName = str_random(5)."-".date('his')."-".str_random(3).".".$ext;
+            $file->move('gambar/', $fileName);
 
-        if($request->hasFile('scan_surat')){            
-            $imageName = time().'.'.request()->scan_surat->getClientOriginalExtension();            
-            $request->scan_surat->move(public_path('gambar'), $imageName);            
-            $suratMasuk->file_surat = $imageName;            
+            $suratMasuk->file_surat = $fileName;
         }else{
             return redirect()->route('admin.addSuratMasuk')->with('error', 'Upload Bukti file');
         }
-        
+
         $suratMasuk->save();
 
         return redirect()->route('admin.showSuratMasuk');
@@ -491,6 +496,8 @@ class SuratAdminController extends Controller
 
     public function deleteSuratMasuk($id){    
         $surat = SuratMasuk::find($id);
+        $image = 'gambar/'.$surat->file_surat;
+        $delete = File::delete($image);
         $surat->delete();
         return redirect()->route('admin.showSuratMasuk')->with('success', 'Surat Berhasil di Hapus');
     }

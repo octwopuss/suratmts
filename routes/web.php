@@ -21,20 +21,22 @@ use App\penanggungJawab;
 
 Route::get('/dashboard/', 'SuratController@showDashboard')->name('dashboard');
 
-Route::get('/', 'SuratController@showIfAuth')->middleware('StudentMiddleware');
+Route::get('/', 'SuratController@showIfAuth');
 Route::get('/riwayat-surat/', 'SuratController@history')->name('history');
 Route::post('/auth', '\App\Http\Controllers\Auth\LoginController@authenticateStudent')->name('student-login');
 Route::get('/logout', '\App\Http\Controllers\Auth\LoginController@logout');
 Route::get('/user_notif', function(){
 	$user = Auth::guard('student')->user();
-	$DetailSurat = DetailSurat::where('user_id', $user->id)
+	$DetailSurat = DetailSurat::where(	'user_id', $user->id)
 					->where('user_notif', 1)->update(['user_notif'=>0]);
 
 	return redirect()->route('history');		
 });
 
+Route::get('/gambar/{filename}', 'AdminController@authFile')->name('getFile')->middleware('auth');
+
 Route::prefix('surat-internal')->group(function(){
-	Route::get('/', 'SuratController@indexSurat1A')->name('showSurat1A');
+	Route::get('/', 'SuratController@indexSurat1A')->name('showSurat1A')->middleware('StudentMiddleware');
 	Route::get('/create', 'SuratController@create1A')->name('createSurat1A');
 	Route::post('/{id}/store', 'SuratController@storeSurat1A')->name('storeSurat1A');
 	Route::get('/{id}/view', 'SuratController@viewSurat1A')->name('viewSurat1A');	

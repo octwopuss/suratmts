@@ -17,7 +17,7 @@
 	<!-- GOOGLE FONTS -->
 	<link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700" rel="stylesheet">
 	<!-- ICONS -->
-	<link rel="apple-touch-icon" sizes="76x76" href="assets/img/apple-icon.png">
+	<link rel="apple-touch-icon" sizes="76x76" href="assets/img/ulm-icon.png">
 	<link rel="icon" type="image/png" sizes="96x96" href="assets/img/favicon.png">
 </head>
 
@@ -60,17 +60,15 @@
 									</label>
 								</div>
 								<button type="submit" class="btn btn-primary btn-lg btn-block">LOGIN</button>
-								<div class="bottom">
-									<span class="helper-text"><i class="fa fa-lock"></i> <a href="#">Forgot password?</a></span>
-								</div>
 							</form>
 						</div>
 					</div>
 					<div class="right">
 						<div class="overlay"></div>
 						<div class="content text">
-							<h1 class="heading">Free Bootstrap dashboard template</h1>
-							<p>by The Develovers</p>
+							<h1 class="heading">APLIKASI SURAT MENYURAT</h1>
+							<p><strong>PROGRAM STUDI MAGISTER TEKNIK SIPIL</strong></p>
+							<p><strong>UNIVERSITAS LAMBUNG MANGKURAT</strong></p>
 						</div>
 					</div>
 					<div class="clearfix"></div>

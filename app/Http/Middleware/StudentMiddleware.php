@@ -17,7 +17,10 @@ class StudentMiddleware
      */
     public function handle($request, Closure $next)
     {
-        
         return $next($request);
+
+        if(!Auth::guard('student')->check()){
+            return redirect('/home');
+        }
     }
 }

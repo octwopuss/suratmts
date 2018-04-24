@@ -47,14 +47,10 @@
 						      <div class="modal-content">
 						        <div class="modal-header">
 						          <button type="button" class="close" data-dismiss="modal">&times;</button>
-						          <h4 class="modal-title">Scan Surat</h4>
+						          <h4 class="modal-title">{{$surat->perihal}}</h4>
 						        </div>
-						        <div class="modal-body" style="width: 100%; text-align: center;">
-						          @php
-						          	$image = $surat->file_surat;
-
-						          @endphp
-						          <img width="800" height="800" src="/gambar/{{$image}}">
+						        <div class="modal-body" style="width: 100%; text-align: center;">						        
+						          <img width="800" height="800" src="/gambar/{{$surat->file_surat}}">
 						        </div>
 						        <div class="modal-footer">
 						          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>

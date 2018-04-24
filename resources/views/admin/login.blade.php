@@ -31,7 +31,7 @@
 						<div class="content">
 							<div class="header">
 								<div class="logo text-center"><img src="{{asset('assets/img/logo-dark.png')}}" alt="Klorofil Logo"></div>
-								<p class="lead">Hello admin, Login to your account</p>
+								<p class="lead">Hello Admin, Login to Your Account</p>
 							</div>
 							<form class="form-auth-small"  method="POST" action="{{route('admin-login')}}">
 								{{csrf_field() }}
@@ -57,17 +57,15 @@
 									</label>
 								</div>
 								<button type="submit" class="btn btn-primary btn-lg btn-block">LOGIN</button>
-								<div class="bottom">
-									<span class="helper-text"><i class="fa fa-lock"></i> <a href="#">Forgot password?</a></span>
-								</div>
 							</form>
 						</div>
 					</div>
 					<div class="right">
 						<div class="overlay"></div>
 						<div class="content text">
-							<h1 class="heading">Free Bootstrap dashboard template</h1>
-							<p>by The Develovers</p>
+							<h1 class="heading">APLIKASI SURAT MENYURAT</h1>
+							<p><strong>PROGRAM STUDI MAGISTER TEKNIK SIPIL</strong></p>
+							<P><STRONG>UNIVERSITAS LAMBUNG MANGKURAT</STRONG></P>
 						</div>
 					</div>
 					<div class="clearfix"></div>
