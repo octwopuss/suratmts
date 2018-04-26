@@ -88,6 +88,7 @@
                                         @endif
                                         Pengajuan surat {{$tipe}} anda telah {{$status}}                                    
                                     @endif
+                                </a></li>
                                 @endforeach                                 
                                 @else
                                 <li><a class="notification-item">Tidak ada pemberitahuan</a></li>
@@ -128,8 +129,8 @@
                             <a href="#subPages" data-toggle="collapse" class="collapsed"><i class="lnr lnr-inbox"></i> <span>Buat Surat</span> <i class="icon-submenu lnr lnr-chevron-left"></i></a>
                             <div id="subPages" class="collapse ">
                                 <ul class="nav">
-                                    <li><a href="{{route('showSurat1A')}}" class="">Surat Internal</a></li>                                    
-                                    <li><a href="{{route('showSurat1B')}}" class="">Surat Eksternal</a></li>                                    
+                                    <li><a href="{{route('showSurat1A')}}" class="">Surat Keterangan Aktif Kuliah</a></li>                                    
+                                    <li><a href="{{route('showSurat1B')}}" class="">Surat Permintaaan Data</a></li>                                    
                                 </ul>
                             </div>
                         </li>  

@@ -36,13 +36,13 @@
 	<br>				
 	<label>Instansi Tujuan</label>
 	<input class="form-control input-lg" placeholder="" type="text" name="instansi_tujuan" value="{{$surat->instansi_tujuan}}"><label>Keperluan</label>		
-	<select class="form-control" name="alasan_keperluan">
-		<option value="Tesis">Penilitian dan Penulisan Tesis</option>
-		<option value="Proposal Tesis">Penilitian dan Penulisan Proposal Tesis</option>
+	<select class="form-control input-lg" name="alasan_keperluan">
+		<option value="Tesis">Penelitian dan Penulisan Tesis</option>
+		<option value="Proposal Tesis">Tugas Kuliah</option>
 	</select>
 	<br>
 	<label>Judul Tesis</label>
-	<input type="text" name="judul_tesis" class="form-control" value="{{$surat->judul_tesis}}">
+	<input type="text" name="judul_tesis" class="form-control input-lg" value="{{$surat->judul_tesis}}">
 	<br>
 	<label>Alamat Tujuan</label>
 	<input class="form-control input-lg" placeholder="" type="text" name="alamat_tujuan" value="{{$surat->alamat_tujuan}}">
@@ -58,6 +58,6 @@
 	@endif
 	<br>	
 	<br>
-	<span class="input-group-btn"><button class="btn btn-primary" type="submit">Save</button></span>
+	<span class="input-group-btn"><button class="btn btn-primary" type="submit" onclick="return confirm('Apakah data yang anda masukan sudah benar?')">Save</button></span>
 </form>
 @endsection

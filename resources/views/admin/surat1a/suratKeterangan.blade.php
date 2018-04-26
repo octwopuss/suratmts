@@ -55,7 +55,6 @@
         page-break-after: always;
     }
 
-   	
 	</style>
 </head>
 <body>
@@ -84,29 +83,36 @@
         <br>	
         <div class="title-container" align="center">
             <p><span class="title" style="font-size: 17pt;"><b><u>SURAT KETERANGAN</u></b></span><br>
-            Nomor: 113/UN8.4.1.31.1/KM/2018</p>            
+            Nomor: {{$nomor->nomor}}/UN8.4.1.31.1/KM/2018</p>            
         </div>        	        
         <br>
         <p>Melalui surat ini diterangkan bahwa:</p>        	
 		<table style="margin-left: 1cm;">
 			<tr>
-				<td>Nama</td>
-				<td>: <b>{{$surat->nama}}</b></td>
+				<td style="vertical-align: text-top; width: 25%;">Nama</td>
+                <td style="vertical-align: text-top;">:</td>
+				<td style="vertical-align: text-top;"><b>{{$surat->nama}}</b></td>
 			</tr>
 			<tr>
-                <td>Alamat Rumah</td>         
-                <td>: <b>{{$surat->alamat_rumah}}</b></td>
+                <td style="vertical-align: text-top;">Alamat Rumah</td>         
+                <td style="vertical-align: text-top;">:</td>
+                <td style="vertical-align: text-top;"><b>{{$surat->alamat_rumah}}</b></td>
             </tr>
             <tr>
-                <td>Instansi</td>
-                <td>: <b>{{$surat->instansi}}</b></td>
+                <td style="vertical-align: text-top;">Instansi</td>
+                <td style="vertical-align: text-top;">:</td>
+                <td style="vertical-align: text-top;"><b>{{$surat->instansi}}</b></td>
             </tr>
 		</table>
 		<br>
 		<p>terdaftar sebagai mahasiswa aktif Program Studi Magister Teknik Sipil Fakultas Teknik Universitas Lambung <br> Mangkurat Bidang Pilihan {{$surat->bidang_pilihan}} pada semester genap tahun akademik 2017/2018 dengan Nomor Induk Mahasiswa {{$surat->nim}}</p>
         <p>Demikian surat keterangan ini dibuat untuk dipergunakan sebagai {{strtolower($surat->kegunaan_surat)}}</p>
 		<div class="ttd" style="float:right;">
-			<p>{{$ttd->jabatan}},</p>
+			<p>Banjarmasin, {{date('d')}} {{$month}} {{$tahun}} 
+                <br>
+                {{$ttd->jabatan}},
+            </p>
+            
 			<br>
 			<br>
 			<p><b>{{$ttd->nama}}</b><br>
@@ -117,6 +123,7 @@
     </div>
 </div>
 <script type="text/javascript">	
+    print();
 </script>
 </body>
 </html>

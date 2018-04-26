@@ -2,8 +2,7 @@
 
 @section('title', 'Tolak Surat')
 
-@section('admin')
-	
+@section('admin')	
 	<div class="panel">	
 		<div class="panel-body">
 			<div class="panel-title">
@@ -18,6 +17,4 @@
 			</form>
 		</div>
 	</div>
-
-
 @endsection

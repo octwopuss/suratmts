@@ -30,6 +30,10 @@
 	<input type="file" name="scan_surat" class="form-control">
 
 	<br>
+	<label>Keterangan</label>
+	<textarea class="form-control input-lg" placeholder="Opsional" rows="4" name="keterangan" value="{{$surat->keterangan}}"></textarea>
+
+	<br>
 	<button type="submit" onclick="return confirm('Apakah data yang anda masukan sudah benar?')" class="btn btn-success btn-md">Update</button>
 
 </form>

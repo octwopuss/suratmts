@@ -28,8 +28,8 @@
 				<td>{{$row->email}}</td>
 				<td>{{$row->phone}}</td>
 				<td>					
-					<a href="{{route('admin.editMahasiswa', $row->id)}}"><button type="button" class="btn btn-warning btn-sm">Edit</button></a>
-					<a href="{{route('admin.deleteMahasiswa', $row->id)}}" class="deleteSurat"><button type="button" class="btn btn-danger btn-sm">Delete</button></a>
+					<a href="{{route('admin.editMahasiswa', $row->id)}}" class="btn btn-warning btn-sm" title="Edit"><i class="fa fa-edit"></i></button></a>
+					<a href="{{route('admin.deleteMahasiswa', $row->id)}}" class="btn btn-danger btn-sm" title="Delete"><i class="fa fa-trash-o"></i></a>
 				</td>
 			</tr>				
 			@endforeach	

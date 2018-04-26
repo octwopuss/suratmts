@@ -21,6 +21,8 @@
 					<td align="center">
 						@if($pj->active == 1)
 							<p style="font-size: 10pt;" class="label label-success">Aktif</p>
+						@else
+							<p style="font-size: 10pt;" class="label label-danger">Tidak Aktif</p>
 						@endif
 					</td>
 					<td align="center">

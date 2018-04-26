@@ -107,9 +107,9 @@
 		<br>{{$surat->instansi_tujuan}}
 		<br>{{$surat->alamat_tujuan}}
 		<br>Di Tempat
-		<br><p>Demi kelancaran penelitian dan penulisan {{$surat->alasan_keperluan}} mahasiswa pada Program Studi Magister teknik <br>
+		<br><p>Demi kelancaran penelitian dan penulisan {{$surat->alasan_keperluan}} mahasiswa pada Program Studi Magister teknik
 		Sipil Fakultas teknik Universitas Lambung Mangkurat:</p>
-		<br>
+		
 		<table class="control-table" style="margin-left: 1cm;">
 			<tr>
 				<td>Nama</td>
@@ -132,7 +132,7 @@
 				<td> {{$surat->judul_tesis}}</td>
 			</tr>
 		</table>
-		<br>
+		
 		<p>Kami mohon dengan hormat kesediaan Bapak/Ibu memberikan bantuan data berupa            
             @if(count($keperluan_data) > 1)            
             :<br>
@@ -141,14 +141,12 @@
                     {{$i++}}. {{$data}} <br>
                  @endforeach
             @else
-            {{strtolower($keperluan_data[0])}}
+            {{strtolower($keperluan_data[0])."."}}
             <br>
             @endif          
 
 		Demikian Permohonan ini disampaikan, atas perhatian dan bantuan yang Bapak\Ibu berikan diucapkan terima kasih.
         </p>                    
-
-        <br>
         <br>
 		<div class="ttd" style="float:right;">
 			<p>{{$ttd->jabatan}},</p>

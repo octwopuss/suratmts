@@ -11,13 +11,13 @@
 		@endforeach
 	@endif	
 	<label>Nama</label>
-	<input class="form-control input-lg" placeholder="" type="text" name="nama" value="{{$student->nama}}" disabled="True">
+	<input class="form-control input-lg" placeholder="" type="text" name="nama" value="{{$student->nama}}">
 	<br>	
 	<label>NIM</label>
-	<input class="form-control input-lg" placeholder="" type="text" name="nim" value="{{$student->nim}}" disabled="True">
+	<input class="form-control input-lg" placeholder="" type="text" name="nim" value="{{$student->nim}}">
 	<br>	
 	<label>Bidang Pilihan</label>
-	<input class="form-control input-lg" placeholder="" type="text" name="bidang_pilihan" value="{{$student->bidang_pilihan}}" disabled="True">
+	<input class="form-control input-lg" placeholder="" type="text" name="bidang_pilihan" value="{{$student->bidang_pilihan}}">
 	<br>
 	<label>Alamat Rumah</label>
 	<input class="form-control input-lg" placeholder="" type="text" name="alamat_rumah" value="{{$student->alamat_rumah}}">

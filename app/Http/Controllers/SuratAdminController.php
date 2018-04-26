@@ -77,12 +77,28 @@ class SuratAdminController extends Controller
 
     public function viewSurat1A($id){        
 
-        $current_year = date("Y");
+        $month_list = ['Januari', 
+                'Februari',
+                'Maret',
+                'April',
+                'Mei',
+                'Juni',
+                'Juli',
+                'Agustus',
+                'September',
+                'Oktober',
+                'November',
+                'Desember'
+            ];
+
+        $current_month = date("m") - 1;
+        $current_year = date("Y");            
+        $month = $month_list[$current_month];   
         $nomor = NomorSurat::where('id_surat', $id)->where('tipe_surat',"1A")->first();
         $surat = Surat1A::where('id', $id)->first();        
         $penanggung_jawab = penanggungJawab::where('active', 1)->first();
 
-        return view('admin.surat1a.suratKeterangan', ['nomor'=>$nomor, 'ttd'=>$penanggung_jawab, 'surat'=>$surat, 'tahun'=>$current_year]);
+        return view('admin.surat1a.suratKeterangan', ['month'=>$month,'nomor'=>$nomor, 'ttd'=>$penanggung_jawab, 'surat'=>$surat, 'tahun'=>$current_year]);
     }    
 
     public function prosesSurat1A($id){
@@ -155,7 +171,15 @@ class SuratAdminController extends Controller
 
         $surat1a = Surat1A::where('id', $data)->update([
           'keperluan' => $keperluan,
-          'kegunaan_surat' => $request->kegunaan
+          'kegunaan_surat' => $request->kegunaan,
+          'nama' => $request->nama,
+          'nim' => $request->nim,
+          'bidang_pilihan' => $request->bidang_pilihan,
+          'telepon' => $request->telepon,
+          'alamat_rumah' => $request->alamat_rumah,
+          'alamat_instansi' => $request->alamat_instansi,
+          'instansi' => $request->instansi,
+          'telp_instansi' => $request->telp_instansi,
         ]);
 
         return redirect()->route('admin.showSurat1A')->with('success', 'Surat berhasil ditambahkan');
@@ -383,7 +407,7 @@ class SuratAdminController extends Controller
                 'November',
                 'Desember'
             ];
-        $nomor = NomorSurat::where('id_surat', $id)->first();
+        $nomor = NomorSurat::where('id_surat', $id)->where('tipe_surat', '1B')->first();
         $surat = Surat1B::where('id', $id)->first();        
         $date = $surat->created_at;            
         $month = $month_list[$date->month-1];                
@@ -439,7 +463,6 @@ class SuratAdminController extends Controller
         
         $request->validate([
             "pengirim"=>"required",
-            "nomor_surat"=>"required",
             "perihal"=>"required",
             "tanggal"=>"required",            
             "scan_surat"=>"required|max:2048|image"
@@ -452,7 +475,7 @@ class SuratAdminController extends Controller
         $suratMasuk->perihal = $request->perihal;
         $suratMasuk->tanggal = $request->tanggal;
         if($request->hasFile('scan_surat')){
-            $file=$request->file('scan_surat');
+            $file= $request->file('scan_surat');
             $ext = $file->getClientOriginalExtension();
             $fileName = str_random(5)."-".date('his')."-".str_random(3).".".$ext;
             $file->move('gambar/', $fileName);
@@ -461,6 +484,8 @@ class SuratAdminController extends Controller
         }else{
             return redirect()->route('admin.addSuratMasuk')->with('error', 'Upload Bukti file');
         }
+
+        $suratMasuk->keterangan = $request->keterangan;
 
         $suratMasuk->save();
 
@@ -479,7 +504,13 @@ class SuratAdminController extends Controller
 
     public function updateSuratMasuk(Request $request, $id){
         if($request->hasFile('scan_surat')){
-            $imageName = time().'.'.request()->scan_surat->getClientOriginalExtension();            
+            $surat = SuratMasuk::find($id);
+            $image = 'gambar/'.$surat->file_surat;
+            $delete = File::delete($image);
+
+            $file= $request->file('scan_surat');
+            $ext = $file->getClientOriginalExtension();
+            $imageName = str_random(5)."-".date('his')."-".str_random(3).".".$ext;
             $request->scan_surat->move(public_path('gambar'), $imageName);             
         }
 
@@ -488,7 +519,8 @@ class SuratAdminController extends Controller
             "nomor_surat"=>$request->nomor_surat,
             "perihal"=>$request->perihal,   
             "tanggal"=>$request->tanggal,
-            "file_surat"=>$imageName,            
+            "file_surat"=>$imageName,          
+            "keterangan"=>$request->keterangan  
         ]);
 
         return redirect()->route('admin.showSuratMasuk');        

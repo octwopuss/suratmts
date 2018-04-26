@@ -19,6 +19,7 @@
 					<td>Tanggal</td>
 					<td>No. Surat</td>
 					<td>Perihal</td>
+					<td>Keterangan</td>
 					<td>Aksi</td>
 				</tr>
 			</thead>
@@ -36,6 +37,7 @@
 					</td>
 					<td>{{$surat->nomor_surat}}</td>
 					<td>{{$surat->perihal}}</td>
+					<td>{{$surat->keterangan}}</td>
 					<td>
 						<a href="#" data-toggle="modal" data-target="#myModal" class="btn btn-primary btn-sm" title="View"><i class="fa fa-eye"></i></a>
 						<!-- Modal -->

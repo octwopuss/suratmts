@@ -33,7 +33,11 @@
 
 	<br>
 	<label>Scan Surat Masuk</label>
-	<input type="file" name="scan_surat" class="form-control" multiple>
+	<input type="file" name="scan_surat" class="form-control input-lg" multiple>
+
+	<br>
+	<label>Keterangan</label>
+	<textarea class="form-control input-lg" placeholder="Opsional" rows="4" name="keterangan"></textarea>
 
 	<br>
 	<button type="submit" class="btn btn-success btn-md" onclick="return confirm('Apakah data yang anda masukan sudah benar?')">Simpan</button>

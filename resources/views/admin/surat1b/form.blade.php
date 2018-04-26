@@ -36,8 +36,8 @@
 	<br>		
 	<label>Keperluan</label>		
 	<select class="form-control" name="alasan_keperluan">
-		<option value="Tesis">Penilitian dan Penulisan Tesis</option>
-		<option value="Proposal Tesis">Penilitian dan Penulisan Proposal Tesis</option>
+		<option value="Tesis">Penelitian dan Penulisan Tesis</option>
+		<option value="Proposal Tesis">Tugas Kuliah</option>
 	</select>
 	<br>
 	<label>Judul Tesis</label>
@@ -54,6 +54,6 @@
 	<input class="form-control input-lg" placeholder="Opsional" type="text" name="keperluan_data[]">
 	<input class="form-control input-lg" placeholder="Opsional" type="text" name="keperluan_data[]">
 	<br>
-	<span class="input-group-btn"><button class="btn btn-primary" type="submit">Save</button></span>
+	<span class="input-group-btn"><button onclick="return confirm('Apakah data yang anda masukan sudah benar?')" class="btn btn-primary" type="submit">Save</button></span>
 </form>
 @endsection
