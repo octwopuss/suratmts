@@ -2,7 +2,7 @@
 <html lang="en">
 
 <head>
-    <title>Dashboard | Klorofil - Free Bootstrap Dashboard Template</title>
+    <title>@yield('title')</title>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
@@ -31,9 +31,9 @@
         <!-- NAVBAR -->
         <nav class="navbar navbar-default navbar-fixed-top">
             <!-- LOGO -->
-            <!-- <div class="brand">
-                <a href=" "><img src="assets/img/Logo-Unlam-mini.png" alt="Dashboard" class="img-responsive logo"></a>
-            </div> -->
+            <div class="brand">
+                <a href=" "><img src="{{asset('assets/img/Logo-login.png')}}" alt="Dashboard" class="img-responsive logo"></a>
+            </div>
             <div class="container-fluid">
                 <div class="navbar-btn">
                     <button type="button" class="btn-toggle-fullwidth"><i class="lnr lnr-arrow-left-circle"></i></button>
@@ -124,9 +124,9 @@
             <div class="sidebar-scroll">
                 <nav>
                     <ul class="nav">
-                        <li><a href="/dashboard" class="active"><i class="lnr lnr-home"></i><span>Dasbor</span></a>                 
+                        <li><a href="/dashboard" class="active"><i class="lnr lnr-home"></i><span>Beranda</span></a>                 
                         <li>
-                            <a href="#subPages" data-toggle="collapse" class="collapsed"><i class="lnr lnr-inbox"></i> <span>Buat Surat</span> <i class="icon-submenu lnr lnr-chevron-left"></i></a>
+                            <a href="#subPages" data-toggle="collapse" class="collapsed"><i class="lnr lnr-inbox"></i><span>Buat Surat</span> <i class="icon-submenu lnr lnr-chevron-left"></i></a>
                             <div id="subPages" class="collapse ">
                                 <ul class="nav">
                                     <li><a href="{{route('showSurat1A')}}" class="">Surat Keterangan Aktif Kuliah</a></li>                                    
@@ -168,7 +168,27 @@
     <script>
         $(document).ready(function() {
             $('#table-surat').DataTable();
+            $('#keperluan-data').change(function(){
+                var value = $(this).val();
+                console.log(value);
+                if(value == 'Tugas'){
+                    $('#bukti_ba').hide();
+                }else{
+                    $('#bukti_ba').show();
+                }
+            });
         } );
+
+        var count = 0;
+
+        function tambahData(){
+            var field_data = '<input class="form-control input-lg" placeholder="opsional" type="text" name="keperluan_data[]">';
+            $('#keperluan_data').append(field_data);
+            count += 1;
+           if(count > 8){
+                $('#btnTambahData').hide();
+           }
+        }
     </script>          
 </body>
 </html>

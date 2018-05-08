@@ -15,7 +15,7 @@
 
 	<br>
 	<label>Tanggal</label>
-	<input type="date" name="tanggal" class="form-control input-lg">
+	<input type="date" name="tanggal" class="form-control input-lg" value="{{$surat->tanggal}}">
 	
 	<br>
 	<label>Nomor Surat</label>
@@ -24,6 +24,10 @@
 	<br>
 	<label>Perihal</label>
 	<input type="text" name="perihal" class="form-control input-lg" value="{{$surat->perihal}}">
+
+	<br>
+	<label>Tanggal Diterima</label>
+	<input type="date" name="tanggal_diterima" class="form-control input-lg" value="{{$surat->tanggal_diterima}}">
 
 	<br>
 	<label>Scan Surat Masuk</label>

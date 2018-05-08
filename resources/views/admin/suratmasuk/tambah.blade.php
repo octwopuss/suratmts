@@ -20,7 +20,7 @@
 	<input type="text" name="pengirim" class="form-control input-lg">
 
 	<br>
-	<label>Tanggal</label>
+	<label>Tanggal Surat</label>
 	<input type="date" name="tanggal" class="form-control input-lg">
 	
 	<br>
@@ -30,6 +30,10 @@
 	<br>
 	<label>Perihal</label>
 	<input type="text" name="perihal" class="form-control input-lg">
+
+	<br>
+	<label>Tanggal Diterima</label>
+	<input type="date" name="tanggal_diterima" class="form-control input-lg">
 
 	<br>
 	<label>Scan Surat Masuk</label>

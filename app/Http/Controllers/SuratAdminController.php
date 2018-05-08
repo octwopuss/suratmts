@@ -25,7 +25,7 @@ class SuratAdminController extends Controller
 	/* Start crud surat internal */
 
     public function indexSurat1A(){
-    	$surat = DetailSurat::where('status', 0)->where('tipe_surat', '1A')->get();
+    	$surat = DetailSurat::where('status', 0)->where('tipe_surat', '1A')->orderBy('created_at', 'desc')->get();
     	return view('admin.surat1a.surat1a', ['surat'=>$surat]);
     }
    
@@ -59,6 +59,7 @@ class SuratAdminController extends Controller
         $surat->telp_instansi = $request->telp_instansi;
         $surat->keperluan = $keperluan;
         $surat->kegunaan_surat = $request->kegunaan;
+        $surat->semester = $request->semester;
 
         $surat->save();  
 
@@ -95,10 +96,12 @@ class SuratAdminController extends Controller
         $current_year = date("Y");            
         $month = $month_list[$current_month];   
         $nomor = NomorSurat::where('id_surat', $id)->where('tipe_surat',"1A")->first();
-        $surat = Surat1A::where('id', $id)->first();        
-        $penanggung_jawab = penanggungJawab::where('active', 1)->first();
+        $surat = Surat1A::where('id', $id)->first();   
+        $ds = DetailSurat::where('id_surat', $id)->where('tipe_surat', "1A")->first();    
+        $penanggung_jawab = PenanggungJawab::where('id', $ds->ttd)->first();
+        $semester = explode(',',$surat->semester);
 
-        return view('admin.surat1a.suratKeterangan', ['month'=>$month,'nomor'=>$nomor, 'ttd'=>$penanggung_jawab, 'surat'=>$surat, 'tahun'=>$current_year]);
+        return view('admin.surat1a.suratKeterangan', ['month'=>$month,'nomor'=>$nomor, 'ttd'=>$penanggung_jawab, 'surat'=>$surat, 'tahun'=>$current_year, 'semester'=>$semester]);
     }    
 
     public function prosesSurat1A($id){
@@ -110,7 +113,9 @@ class SuratAdminController extends Controller
             $nomor = $nomor_surat->nomor;            
         }
 
-        return view('admin.surat1a.prosesSurat1a', ['id'=>$id, 'nomor'=>$nomor]);
+        $ttd = PenanggungJawab::all();
+
+        return view('admin.surat1a.prosesSurat1a', ['id'=>$id, 'nomor'=>$nomor, 'ttd'=>$ttd]);
     }
 
     public function storeProses1A(Request $request, $id){
@@ -126,16 +131,19 @@ class SuratAdminController extends Controller
         $nomor_surat->tipe_surat = "1A";
         $nomor_surat->id_surat = $id;
         $nomor_surat->tipe_nomor = $tipe_nomor;
-
+        
+        $pj = (int)$request->pj;
         $detail_surat = DetailSurat::where('tipe_surat', '1A')->where('id_surat', $id)->update(array(
             'notif'=>0,
             'status'=>1,
             'user_notif'=>1,
+            'ttd'=>$pj,
             'comment'=>"Surat berhasil diproses dan dapat diambil di prodi",
             )
         );
 
-        $nomor_surat->save();         
+        
+        $nomor_surat->save();
 
         return redirect()->route('admin.success1A', $id);
     }
@@ -180,6 +188,7 @@ class SuratAdminController extends Controller
           'alamat_instansi' => $request->alamat_instansi,
           'instansi' => $request->instansi,
           'telp_instansi' => $request->telp_instansi,
+          'semester' => $request->semester,
         ]);
 
         return redirect()->route('admin.showSurat1A')->with('success', 'Surat berhasil ditambahkan');
@@ -231,7 +240,7 @@ class SuratAdminController extends Controller
     /* Start crud surat eksternal */
 
     public function indexSurat1B(){
-    	$surat = DetailSurat::where('status', 0)->where('tipe_surat', '1B')->get();
+    	$surat = DetailSurat::where('status', 0)->where('tipe_surat', '1B')->orderBy('created_at', 'desc')->get();
                
     	return view('admin.surat1b.surat1b', ['surat'=>$surat]);
     }
@@ -243,13 +252,18 @@ class SuratAdminController extends Controller
     }
 
     public function storeSurat1B(Request $request, $data){
-
         $validasiData = $request->validate([                               
             'keperluan_data' => 'required',
             'instansi_tujuan' => 'required',
             'alamat_instansi' => 'required',
             'judul_tesis' => 'required'
         ]);        
+
+        if($request->alasan_keperluan == "Tesis"){
+            $request->validate([
+                'bukti_ba' => 'required|max:1028',
+            ]);
+        }
 
         $admin_id = $data;      
         $student = Student::where('id', $data)->first();
@@ -276,12 +290,21 @@ class SuratAdminController extends Controller
         $surat->alamat_tujuan = $request->alamat_tujuan;   
         $surat->judul_tesis = $request->judul_tesis;     
 
+        if($request->hasFile('bukti_ba')){
+            $file= $request->file('bukti_ba');
+            $ext = $file->getClientOriginalExtension();
+            $fileName = str_random(5)."-".date('his')."-".str_random(3).".".$ext;
+            $file->move('bukti_seminar/', $fileName);
+
+            $surat->ba_seminar = $fileName;
+        }
+
+
         $surat->save();  
 
         $srt_last = DB::table('surat_1_b')->orderBy('id', 'desc')->first();
 
         //Detail Surat
-
         $detail_surat->user_id = $student->id;
         $detail_surat->tipe_surat = $surat_eksternal;
         $detail_surat->id_surat = $srt_last->id;
@@ -313,6 +336,12 @@ class SuratAdminController extends Controller
             'instansi_tujuan' => 'required',
             'alamat_tujuan' => 'required'            
         ]);            
+
+        if($request->alasan_keperluan == "Tesis"){
+            $request->validate([
+                'bukti_ba' => 'required|max:1028',
+            ]);
+        }
             
         $removed_empty = array_filter($request->keperluan_data);        
     
@@ -327,7 +356,18 @@ class SuratAdminController extends Controller
         $surat1b->keperluan_data = $keperluan_data;
         $surat1b->alasan_keperluan = $request->alasan_keperluan;
         $surat1b->instansi_tujuan = $request->instansi_tujuan;
-        $surat1b->alamat_tujuan = $request->alamat_tujuan;        
+        $surat1b->alamat_tujuan = $request->alamat_tujuan;   
+
+
+        if($request->hasFile('bukti_ba')){
+            $file= $request->file('bukti_ba');
+            $ext = $file->getClientOriginalExtension();
+            $fileName = str_random(5)."-".date('his')."-".str_random(3).".".$ext;
+            $file->move('bukti_seminar/', $fileName);
+
+            $surat1b->ba_seminar = $fileName;
+        }
+
 
         $surat1b->save();
 
@@ -363,8 +403,10 @@ class SuratAdminController extends Controller
         }else{
             $nomor = $nomor_surat->nomor;
         }
+
+        $ttd = PenanggungJawab::all();
             
-        return view('admin.surat1b.prosesSurat1B', ['id'=>$id, 'nomor'=>$nomor]);
+        return view('admin.surat1b.prosesSurat1B', ['id'=>$id, 'nomor'=>$nomor, 'ttd'=>$ttd]);
     }
 
     public function storeProses1B(Request $request, $id){
@@ -388,6 +430,11 @@ class SuratAdminController extends Controller
             )
         );
 
+
+        $detail_surat = DetailSurat::where('id_surat', $id)->where('tipe_surat', '1B')->update([
+            'ttd'=>$request->pj,
+        ]);
+
         $nomor_surat->save();
         return redirect()->route('admin.success1B', $id);
     }
@@ -410,8 +457,9 @@ class SuratAdminController extends Controller
         $nomor = NomorSurat::where('id_surat', $id)->where('tipe_surat', '1B')->first();
         $surat = Surat1B::where('id', $id)->first();        
         $date = $surat->created_at;            
-        $month = $month_list[$date->month-1];                
-        $ttd = PenanggungJawab::where('active', 1)->first();
+        $month = $month_list[$date->month-1];   
+        $ds = DetailSurat::where('id_surat', $id)->where('tipe_surat', '1B')->first();            
+        $ttd = PenanggungJawab::where('id', $ds->ttd)->first();
         $array_data = explode(",", $surat->keperluan_data);   
         $keperluan_data = array_map('ucfirst', $array_data);               
         
@@ -465,20 +513,24 @@ class SuratAdminController extends Controller
             "pengirim"=>"required",
             "perihal"=>"required",
             "tanggal"=>"required",            
-            "scan_surat"=>"required|max:2048|image"
+            "scan_surat"=>"required|max:2048|mimes:pdf"
         ]);
 
         $suratMasuk = new SuratMasuk();
 
+        $penerima = Auth::guard('admin')->user()->name;
+
         $suratMasuk->pengirim = $request->pengirim;
         $suratMasuk->nomor_surat = $request->nomor_surat;
         $suratMasuk->perihal = $request->perihal;
+        $suratMasuk->penerima = $penerima;
         $suratMasuk->tanggal = $request->tanggal;
+        $suratMasuk->tanggal_diterima = $request->tanggal_diterima;
         if($request->hasFile('scan_surat')){
             $file= $request->file('scan_surat');
             $ext = $file->getClientOriginalExtension();
             $fileName = str_random(5)."-".date('his')."-".str_random(3).".".$ext;
-            $file->move('gambar/', $fileName);
+            $file->move('scan/', $fileName);
 
             $suratMasuk->file_surat = $fileName;
         }else{
@@ -505,13 +557,13 @@ class SuratAdminController extends Controller
     public function updateSuratMasuk(Request $request, $id){
         if($request->hasFile('scan_surat')){
             $surat = SuratMasuk::find($id);
-            $image = 'gambar/'.$surat->file_surat;
+            $image = 'scan/'.$surat->file_surat;
             $delete = File::delete($image);
 
             $file= $request->file('scan_surat');
             $ext = $file->getClientOriginalExtension();
             $imageName = str_random(5)."-".date('his')."-".str_random(3).".".$ext;
-            $request->scan_surat->move(public_path('gambar'), $imageName);             
+            $request->scan_surat->move(public_path('scan'), $imageName);             
         }
 
         $surat_masuk = SuratMasuk::where('id', $id)->update([
@@ -528,7 +580,7 @@ class SuratAdminController extends Controller
 
     public function deleteSuratMasuk($id){    
         $surat = SuratMasuk::find($id);
-        $image = 'gambar/'.$surat->file_surat;
+        $image = 'scan/'.$surat->file_surat;
         $delete = File::delete($image);
         $surat->delete();
         return redirect()->route('admin.showSuratMasuk')->with('success', 'Surat Berhasil di Hapus');
@@ -537,7 +589,7 @@ class SuratAdminController extends Controller
 
 
     public function history(){
-        $detail_surat = DetailSurat::where('status', 1)->orWhere('status', 2)->orderBy('created_at','desc')->get();
+        $detail_surat = DetailSurat::where('status', 1)->orWhere('status', 2)->orderBy('updated_at','desc')->get();
 
         return view('admin.history', ['surat'=>$detail_surat]);
     }
@@ -549,11 +601,11 @@ class SuratAdminController extends Controller
         return view('admin.penanggungJawab', ['penanggungjawab'=>$pj]);
     }    
 
-    public function storePenanggungJawab($id){        
-        $reset_aktif = PenanggungJawab::where('active', 1)->update(['active' => 0]);
+    // public function storePenanggungJawab($id){        
+    //     $reset_aktif = PenanggungJawab::where('active', 1)->update(['active' => 0]);
 
-        $update_aktif = PenanggungJawab::where('id', $id)->update(['active' => 1]);
+    //     $update_aktif = PenanggungJawab::where('id', $id)->update(['active' => 1]);
 
-        return redirect()->route('admin.penanggungJawab');
-    }
+    //     return redirect()->route('admin.penanggungJawab');
+    // }
 }

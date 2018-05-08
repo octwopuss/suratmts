@@ -1,8 +1,9 @@
 @extends('layouts.master')
 
+@section('title', 'Pengajuan Surat Permintaan Data')
 @section('form')
 <h3 class="page-title">Surat Eksternal</h3>
-<form method="POST" action="{{route('storeSurat1B', $student->id)}}">
+<form method="POST" action="{{route('storeSurat1B', $student->id)}}" enctype="multipart/form-data">
 	{{csrf_field()}}
 
 	@if(count($errors) > 0)
@@ -35,11 +36,13 @@
 	<input class="form-control input-lg" placeholder="Opsional" type="text" name="telp_instansi" value="{{$student->telepon_instansi}}">
 	<br>	
 	<label>Judul Tesis</label>		
-	<input type="text" name="judul_tesis" class="form-control input-lg">
+	<input type="text" name="judul_tesis" class="form-control input-lg" value="{{$student->judul_tesis}}">
+	<br>
 	<label>Keperluan</label>		
-	<select class="form-control" name="alasan_keperluan">
-		<option value="Tesis">Penilitian dan Penulisan Tesis</option>
-		<option value="Proposal Tesis">Penilitian dan Penulisan Proposal Tesis</option>
+	<select class="form-control input-lg" name="alasan_keperluan" id="keperluan-data">
+		<option> - </option>
+		<option value="Tesis">Penelitian dan Penulisan Tesis</option>
+		<option value="Tugas">Penelitian dan Penulisan Tugas Kuliah</option>
 	</select>
 	<br>
 	<label>Instansi Tujuan</label>
@@ -47,11 +50,24 @@
 	<label>Alamat Tujuan</label>
 	<input class="form-control input-lg" placeholder="" type="text" name="alamat_tujuan">
 	<br>
-	<label>Keperluan Data</label>
-	<input class="form-control input-lg" placeholder="" type="text" name="keperluan_data[]">
-	<input class="form-control input-lg" placeholder="Opsional" type="text" name="keperluan_data[]">
-	<input class="form-control input-lg" placeholder="Opsional" type="text" name="keperluan_data[]">
-	<input class="form-control input-lg" placeholder="Opsional" type="text" name="keperluan_data[]">
+	<div class="form-group row">
+		<div class="col-xs-10" id="keperluan_data">
+			<label>Keperluan Data</label>
+			<input class="form-control input-lg" placeholder="" type="text" name="keperluan_data[]">
+		</div>
+		<div class="col-xs-2">
+			<label>Tambah Data</label>
+			<div>
+				<span onclick="tambahData()" class="btn btn-success btn-md" title="Tambah Data" id="btnTambahData"><i class="fa fa-plus"></i></span>
+				<!-- <span onclick="kurangiData()" class="btn btn-danger btn-md" title="Kurangi Data" id="btnKurangiData"><i class="fa fa-minus"></i></span> -->
+			</div>
+		</div>
+	</div>
+	<br>
+	<div id="bukti_ba">
+		<label>Upload Berita Acara Seminar</label>
+		<input type="file" name="bukti_ba" class="form-control input-lg">
+	</div>
 	<br>
 	<span class="input-group-btn"><button class="btn btn-primary" type="submit" onclick="return confirm('Apakah data yang anda masukan sudah benar?')">Save</button></span>
 </form>

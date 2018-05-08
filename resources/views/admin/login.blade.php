@@ -30,7 +30,7 @@
 					<div class="left">
 						<div class="content">
 							<div class="header">
-								<div class="logo text-center"><img src="{{asset('assets/img/logo-dark.png')}}" alt="Klorofil Logo"></div>
+								<div class="logo text-center"><img src="{{asset('assets/img/logo-login.png')}}" alt="Klorofil Logo"></div>
 								<p class="lead">Hello Admin, Login to Your Account</p>
 							</div>
 							<form class="form-auth-small"  method="POST" action="{{route('admin-login')}}">

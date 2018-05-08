@@ -17,7 +17,14 @@
 			</div>			
 			<div class="panel-body">
 				<label>Nomor Surat</label>
-				<input type="text" name="nomor" placeholder="Nomor Terakhir {{$nomor}}" class="form-control">								
+				<input type="text" name="nomor" placeholder="Nomor Terakhir {{$nomor}}" class="form-control input-lg">				
+				<br>
+				<label>Penanggung Jawab</label>																
+				<select class="form-control input-lg" name="pj">
+					@foreach($ttd as $pj)
+					<option value="{{$pj->id}}">{{$pj->jabatan}} - {{$pj->nama}}</option>
+					@endforeach
+				</select>
 				<br>				
 				<button class="btn btn-primary" type="submit">Lanjut</button>
 			</div>			

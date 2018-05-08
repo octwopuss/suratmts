@@ -26,7 +26,7 @@ class MahasiswaController extends Controller
     		'nama' => 'required',
     		'nim' => 'required',
     		'bidang_pilihan' => 'required',
-    		'gender' => 'required'
+            'judul_tesis' => 'required'
     	]);
 		
     	$nama = $request->nama;
@@ -44,6 +44,9 @@ class MahasiswaController extends Controller
     	$student->password = $password;
     	$student->email = $request->email;
     	$student->phone = $request->phone;
+        $student->instansi = $request->instansi;
+        $student->alamat_instansi = $request->alamat_instansi;
+        $student->alamat_rumah = $request->alamat_rumah;
 
     	$student->save();
 

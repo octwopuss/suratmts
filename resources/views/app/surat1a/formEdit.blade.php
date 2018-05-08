@@ -10,13 +10,31 @@
 				<div class="alert alert-danger">{{$error}}</div>
 			@endforeach
 		@endif
-		<input class="form-control input-lg" placeholder="" type="text" name="nama" value="{{$nama}}" disabled="True">
+		<label>Nama</label>
+		<input class="form-control input-lg" placeholder="" type="text" name="nama" value="{{$nama}}">
 		<br>	
 		<label>NIM</label>
-		<input class="form-control input-lg" placeholder="" type="text" name="nim" value="{{$nim}}" disabled="True">
+		<input class="form-control input-lg" placeholder="" type="text" name="nim" value="{{$nim}}">
 		<br>	
 		<label>Bidang Pilihan</label>
-		<input class="form-control input-lg" placeholder="" type="text" name="bidang_pilihan" value="{{$bidang_pilihan}}" disabled="True">
+		<input class="form-control input-lg" placeholder="" type="text" name="bidang_pilihan" value="{{$bidang_pilihan}}">
+		<br>
+		<label>Semester</label>
+		<select name="semester" class="form-control input-lg">
+			<option value="2017/2018,ganjil">2017/2018 Ganjil</option>
+			<option value="2017/2018,genap">2017/2018 Genap</option>
+			<option value="2016/2017,ganjil">2016/2017 Ganjil</option>
+			<option value="2016/2017,genap">2016/2017 Genap</option>
+			<option value="2015/2016,ganjil">2015/2016 Ganjil</option>
+			<option value="2015/2016,genap">2015/2016 Genap</option>
+			<option value="2014/2015,ganjil">2014/2015 Ganjil</option>
+			<option value="2014/2015,genap">2014/2015 Genap</option>
+			<option value="2013/2014,ganjil">2013/2014 Ganjil</option>
+			<option value="2013/2014,genap">2013/2014 Genap</option>
+			<option value="2012/2013,ganjil">2012/2013 Ganjil</option>
+			<option value="2012/2013,genap">2012/2013 Genap</option>
+		</select>
+		<br>
 		<label>Alamat Rumah</label>
 		<input class="form-control input-lg" placeholder="" value="{{$surat->alamat_rumah}}" type="text" name="alamat_rumah">
 		<br>

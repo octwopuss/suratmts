@@ -68,24 +68,24 @@
 <div class="book">
     <div class="page">
     	<div class="header">
-    		<table>
-    			<tr>
-    				<td><img width="100px" src="{{asset('assets/img/logo-ulm.png')}}"></td>
-    				<td align="center" width="580px">
-    					<p style="font-size: 13pt;">
-    						KEMENTERIAN RISET, TEKONOLOGI DAN PENDIDIKAN TINGGI <br>
-    						UNIVERSITAS LAMBUNG MANGKURAT <br>
-    						FAKULTAS TEKNIK <br>
-    						<b>PROGRAM STUDI MAGISTER TEKNIK SIPIL</b> <br>
-    						<span style="font-size: 10pt;">Gedung Fakultas Teknik Kampus Unlam Banjarmasin 70123<br>
-    							Telepon (0511)3304503 Fax. (0511) 3304503 email: psmts@teknikunlam.ac.id, psmts@ft.unlam.ac.id
-    						</span>    						
-    					</p>    					    				    			
-    				</td>
-    			</tr>
-    		</table>    		
-    		<div class="line" style="border-style: solid; border-width: 1.5px; margin-top: -0.6cm"></div>    		
-    	</div>
+            <table>
+                <tr>
+                    <td style="vertical-align: center;"><img width="90px" src="{{asset('assets/img/logo-ulm.png')}}"></td>
+                    <td align="center" width="580px">
+                        <p style="font: 10pt 'Arial';">
+                            KEMENTERIAN RISET, TEKONOLOGI DAN PENDIDIKAN TINGGI <br>
+                            UNIVERSITAS LAMBUNG MANGKURAT <br>
+                            FAKULTAS TEKNIK <br>
+                            <span style="font-size: 16pt"><b>PROGRAM STUDI MAGISTER TEKNIK SIPIL</b></span><br>
+                            <span style="font-size: 9pt;">Gedung Fakultas Teknik Kampus Unlam Banjarmasin 70123<br>
+                                Telepon (0511)3304503 Fax. (0511) 3304503 email: psmts@teknikunlam.ac.id, psmts@ft.unlam.ac.id
+                            </span>                         
+                        </p>                                                            
+                    </td>
+                </tr>
+            </table>            
+            <div class="line" style="border-style: solid; border-width: 1.5px; margin-top: 0"></div>
+        </div>
         <div class="subpage">        
         <br>	
         	<div class="tanggal" style="float: right;">
@@ -94,12 +94,16 @@
         	<table>
         		<tr>
         			<td>Nomor</td>
-        			<td>:<b>{{$nomor->nomor}}/</b>{{$nomor->tipe_nomor}}/{{$tahun}}</td>           			
+        			<td>:<b> {{$nomor->nomor}}/</b>{{$nomor->tipe_nomor}}/{{$tahun}}</td>           			
         		</tr>
         		<tr>
         			<td>Perihal</td>
         			<td>: <b><i>Permohonan Bantuan Data</i></b></td>
         		</tr>
+                <tr>
+                    <td>Lampiran</td>
+                    <td>: <b>-</b></td>
+                </tr>
         	</table>         	
 			<br>
 			<br>
@@ -107,29 +111,29 @@
 		<br>{{$surat->instansi_tujuan}}
 		<br>{{$surat->alamat_tujuan}}
 		<br>Di Tempat
-		<br><p>Demi kelancaran penelitian dan penulisan {{$surat->alasan_keperluan}} mahasiswa pada Program Studi Magister teknik
+		<br><p>Demi kelancaran penelitian dan penulisan {{$surat->alasan_keperluan}} mahasiswa pada Program Studi Magister Teknik
 		Sipil Fakultas teknik Universitas Lambung Mangkurat:</p>
 		
 		<table class="control-table" style="margin-left: 1cm;">
 			<tr>
 				<td>Nama</td>
                 <td>:</td>
-				<td> {{$surat->nama}}</td>
+				<td> <b>{{$surat->nama}}</b></td>
 			</tr>
 			<tr>
 				<td>NIM</td>
                 <td>:</td>
-				<td> {{$surat->nim}}</td>
+				<td> <b>{{$surat->nim}}</b></td>
 			</tr>
 			<tr>
 				<td width="20%">Bidang Pilihan</td>
                 <td>:</td>
-				<td> {{$surat->bidang_pilihan}}</td>
+				<td> <b>{{$surat->bidang_pilihan}}</b></td>
 			</tr>
 			<tr>
 				<td>Judul</td>
                 <td>:</td>
-				<td> {{$surat->judul_tesis}}</td>
+				<td> <b>{{$surat->judul_tesis}}</b></td>
 			</tr>
 		</table>
 		
@@ -140,16 +144,27 @@
                  @foreach($keperluan_data as $data)   
                     {{$i++}}. {{$data}} <br>
                  @endforeach
+                 {{$i}}. dan data pendukung lainnya yang akan dipergunakan untuk penelitian dan penulisan tesis tersebut.
+                 <br>
+                 <br>
             @else
-            {{strtolower($keperluan_data[0])."."}}
+            {{strtolower($keperluan_data[0])}} dan data pendukung lainnya yang akan dipergunakan untuk penelitian dan penulisan tugas tersebut.
             <br>
             @endif          
 
 		Demikian Permohonan ini disampaikan, atas perhatian dan bantuan yang Bapak\Ibu berikan diucapkan terima kasih.
         </p>                    
-        <br>
+        
 		<div class="ttd" style="float:right;">
-			<p>{{$ttd->jabatan}},</p>
+			<p>@if($ttd->jabatan == "Sekretaris")
+                <br>
+                an. Ketua,
+                <br>
+                {{$ttd->jabatan}} Prodi
+                @else
+                <br>
+                {{$ttd->jabatan}},
+                @endif</p>
 			<br>
 			<br>
 			<p><b>{{$ttd->nama}}</b><br>

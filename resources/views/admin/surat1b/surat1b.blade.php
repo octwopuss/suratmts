@@ -19,11 +19,11 @@
 					<?php $i = 1; ?>
 					<th>No.</th>			
 					<th>Pengaju</th>
-					<th>Keperluan Data</th>
+					<th>Keperluan </th>
 					<th>Instansi Tujuan</th>
 					<th>Tanggal Diajukan</th>					
-					<th>Action</th>
-				</tr>
+					<th>Aksi</th>
+				</tr>`
 			</thead>
 			<tbody>
 			@foreach($surat as $srt)				
@@ -34,10 +34,41 @@
 				<tr>				
 					<td>{{$i++}}</td>
 					<td>{{$surat->nama}}</td>						
-					<td>{{$surat->keperluan_data}}</td>					
+					<td>
+						@if($surat->alasan_keperluan == "Tugas")
+							Penulisan dan penelitian tugas
+							
+						@else
+							Penulisan dan penelitian tesis
+						@endif
+					</td>					
 					<td>{{$surat->instansi_tujuan}}</td>
 					<td>{{$surat->created_at}}</td>
-					<td>						
+					<td>			
+						@if($surat->ba_seminar)
+							<a href="#" data-toggle="modal" data-target="#myModal" class="btn btn-primary btn-sm" title="View"><i class="fa fa-eye"></i></a>
+						<!-- Modal -->
+
+						<div class="modal fade" id="myModal" role="dialog">
+						    <div class="modal-dialog modal-lg">
+						    
+						      <!-- Modal content-->
+						      <div class="modal-content">
+						        <div class="modal-header">
+						          <button type="button" class="close" data-dismiss="modal">&times;</button>
+						          <h4 class="modal-title">Berita Acara Seminar</h4>
+						        </div>
+						        <div class="modal-body" style="width: 100%; text-align: center;">						        
+						          <img src="/bukti_seminar/{{$surat->ba_seminar}}">
+						        </div>
+						        <div class="modal-footer">
+						          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+						        </div>
+						      </div>
+						      
+						    </div>
+						</div>
+						@endif
 						<a href="{{route('admin.prosesSurat1B', $srt->id_surat)}}" title="Proses Surat" class="btn btn-success btn-sm"><i class="fa fa-check-square"></i></a>
 						<a href="{{route('admin.editSurat1B', $srt->id_surat)}}" title="Edit" class="btn btn-warning btn-sm"><i class="fa fa-edit"></i></a>
 						<a href="{{route('admin.tolakSurat1B', $srt->id_surat)}}" title="Tolak" class="btn btn-danger btn-sm"><i class="fa fa-ban"></i></a></a>						

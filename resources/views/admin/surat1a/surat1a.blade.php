@@ -1,5 +1,7 @@
 @extends('layouts.admin-master')
 
+@section('title', 'Daftar Surat Keterangan Aktif Kuliah')
+
 @section('admin')
 	<div class="panel-title">
 	<h3 class="page-title"><strong>Surat Internal</strong></h3>

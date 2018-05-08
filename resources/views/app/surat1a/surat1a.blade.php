@@ -1,5 +1,7 @@
 @extends('layouts.master')
 
+
+@section('title', 'Daftar Surat Keterangan Aktif Kuliah')
 @section('tabel')
 <div class="panel-title">
 	<h3 class="page-title"><strong>Surat Internal</strong></h3>
@@ -30,7 +32,7 @@ $no = 1;
 				<td>{{$surat1a->keperluan}}</td>					
 				<td>{{$surat1a->created_at}}</td>
 				<td>					
-					<a href="{{route('editSurat1A', $srt->id)}}" class="btn btn-warning btn-xs" title="Edit"><i class="fa fa-edit"></i></a>
+					<a href="{{route('editSurat1A', $surat1a->id)}}" class="btn btn-warning btn-xs" title="Edit"><i class="fa fa-edit"></i></a>
 					<a onclick="return confirm('Apakah anda yakin akan menghapus surat ini?')" href="{{route('deleteSurat1A', $srt->id)}}" class="btn btn-danger btn-xs" title="Hapus"><i class="fa fa-trash-o"></i></a>					
 				</td>
 			</tr>				

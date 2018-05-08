@@ -34,9 +34,9 @@
         <!-- NAVBAR -->
         <nav class="navbar navbar-default navbar-fixed-top">
             <!-- LOGO -->
-            <!-- <div class="brand">
-                <a href=" "><img src="assets/img/Logo-Unlam-mini.png" alt="Dashboard" class="img-responsive logo"></a>
-            </div> -->
+            <div class="brand">
+                <a href="{{route('admin.dashboard')}}"><img src="{{asset('assets/img/logo-login.png')}}" alt="Dashboard" class="img-responsive logo"></a>
+            </div>
             <div class="container-fluid">
                 <div class="navbar-btn">
                     <button type="button" class="btn-toggle-fullwidth"><i class="lnr lnr-arrow-left-circle"></i></button>
@@ -127,8 +127,7 @@
                             <div id="createSurat" class="collapse ">
                                 <ul class="nav">
                                     <li><a href="{{route('admin.pengajuSurat1A')}}">Surat Internal</a></li>                           
-                                    <li><a href="{{route('admin.pengajuSurat1B')}}">Surat Eksternal</a></li>
-                                    <li><a href="{{route('admin.penanggungJawab')}}">Penanggung Jawab</a></li>                         
+                                    <li><a href="{{route('admin.pengajuSurat1B')}}">Surat Eksternal</a></li>                         
                                 </ul>
                             </div>
                         </li>  
@@ -175,6 +174,17 @@
         $(document).ready(function() {
             $('#table-surat').DataTable();
         } );
+
+         var count = 0;
+
+        function tambahData(){
+            var field_data = '<input class="form-control input-lg" placeholder="opsional" type="text" name="keperluan_data[]">';
+            $('#keperluan_data').append(field_data);
+            count += 1;
+           if(count > 8){
+                $('#btnTambahData').hide();
+           }
+        }
 
         $(document).ready(function() {
             $('#select2-js').select2();

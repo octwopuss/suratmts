@@ -41,7 +41,11 @@
 						@if($data->tipe_surat == "1A")
 							{{$surat1a->keperluan}}
 						@else
-							{{$surat1b->keperluan_data}}
+							@if($surat1b->alasan_keperluan == "Tugas")
+								Permohonan Data Tugas								
+							@else
+								Permohonan Data Tesis
+							@endif
 						@endif
 					</td>
 					<td>

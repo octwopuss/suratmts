@@ -2,7 +2,7 @@
 
 @section('admin')
 <h3 class="page-title">Surat Eksternal</h3>
-<form method="POST" action="{{route('admin.updateSurat1B', $surat->id)}}">
+<form method="POST" action="{{route('admin.updateSurat1B', $surat->id)}}" enctype="multipart/form-data">
 	{{csrf_field()}}
 
 	@if(count($errors) > 0)
@@ -36,27 +36,41 @@
 	<br>				
 	<label>Instansi Tujuan</label>
 	<input class="form-control input-lg" placeholder="" type="text" name="instansi_tujuan" value="{{$surat->instansi_tujuan}}"><label>Keperluan</label>		
-	<select class="form-control input-lg" name="alasan_keperluan">
+	<select class="form-control input-lg" name="alasan_keperluan" id="keperluan-data">
 		<option value="Tesis">Penelitian dan Penulisan Tesis</option>
-		<option value="Proposal Tesis">Tugas Kuliah</option>
+		<option value="Tugas">Penelitian dan Penulisan Tugas Kuliah</option>
 	</select>
 	<br>
 	<label>Judul Tesis</label>
 	<input type="text" name="judul_tesis" class="form-control input-lg" value="{{$surat->judul_tesis}}">
 	<br>
+	<select class="form-control" name="semester">
+		<option value="2017/2018,Ganjil">2017/2018 Ganjil</option>
+		<option value="2017/2018,Genap">2017/2018 Genap</option>
+		<option value="2016/2017,Ganjil">2016/2017 Ganjil</option>
+		<option value="2016/2017,Genap">2016/2017 Genap</option>
+	</select>
 	<label>Alamat Tujuan</label>
 	<input class="form-control input-lg" placeholder="" type="text" name="alamat_tujuan" value="{{$surat->alamat_tujuan}}">
 	<br>
-	<label>Keperluan Data</label>
-	@foreach($keperluan_data as $data)
-	<input class="form-control input-lg" placeholder="" type="text" name="keperluan_data[]" value="{{$data}}">	
-	@endforeach
-	@if(count($keperluan_data) < 4)
-		@for($i = count($keperluan_data); $i < 4; $i++)
-			<input class="form-control input-lg" placeholder="Opsional" type="text" name="keperluan_data[]">	
-		@endfor
-	@endif
-	<br>	
+	<div class="form-group row">
+		<div class="col-xs-10" id="keperluan_data">
+			<label>Keperluan Data</label>
+			<input class="form-control input-lg" placeholder="" type="text" name="keperluan_data[]">
+		</div>
+		<div class="col-xs-2">
+			<label>Tambah Data</label>
+			<div>
+				<span onclick="tambahData()" class="btn btn-success btn-md" title="Tambah Data" id="btnTambahData"><i class="fa fa-plus"></i></span>
+				<!-- <span onclick="kurangiData()" class="btn btn-danger btn-md" title="Kurangi Data" id="btnKurangiData"><i class="fa fa-minus"></i></span> -->
+			</div>
+		</div>
+	</div>
+	<br>
+	<div id="bukti_ba">
+		<label>Upload Berita Acara Seminar</label>
+		<input type="file" name="bukti_ba" class="form-control input-lg">
+	</div>
 	<br>
 	<span class="input-group-btn"><button class="btn btn-primary" type="submit" onclick="return confirm('Apakah data yang anda masukan sudah benar?')">Save</button></span>
 </form>

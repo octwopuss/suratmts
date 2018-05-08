@@ -9,7 +9,7 @@
         height: 100%;
         margin: 0;
         padding: 0;        
-        font: 12pt "Times New Roman";
+        font: 12pt "Times new roman";
     }
 
     *{
@@ -20,7 +20,7 @@
     .page {
         width: 210mm;
         min-height: 297mm;
-        padding: 10mm;
+        padding: 3cm 2cm 1cm 2cm;
         padding-top: 0;
         margin: 5mm auto;
         /*border: 1px #D3D3D3 solid;*/
@@ -63,28 +63,29 @@
     	<div class="header">
     		<table>
     			<tr>
-    				<td><img width="80px" src="{{asset('assets/img/logo-ulm.png')}}"></td>
+    				<td style="vertical-align: center;"><img width="90px" src="{{asset('assets/img/logo-ulm.png')}}"></td>
     				<td align="center" width="580px">
-    					<p style="font-size: 13pt;">
+    					<p style="font: 10pt 'Arial';">
     						KEMENTERIAN RISET, TEKONOLOGI DAN PENDIDIKAN TINGGI <br>
     						UNIVERSITAS LAMBUNG MANGKURAT <br>
     						FAKULTAS TEKNIK <br>
-    						<b>PROGRAM STUDI MAGISTER TEKNIK SIPIL</b> <br>
-    						<span style="font-size: 10pt;">Gedung Fakultas Teknik Kampus Unlam Banjarmasin 70123<br>
+    						<span style="font-size: 16pt"><b>PROGRAM STUDI MAGISTER TEKNIK SIPIL</b></span><br>
+    						<span style="font-size: 9pt;">Gedung Fakultas Teknik Kampus Unlam Banjarmasin 70123<br>
     							Telepon (0511)3304503 Fax. (0511) 3304503 email: psmts@teknikunlam.ac.id, psmts@ft.unlam.ac.id
     						</span>    						
     					</p>    					    				    			
     				</td>
     			</tr>
     		</table>    		
-    		<div class="line" style="border-style: solid; border-width: 1.5px; margin-top: -0.6cm"></div>    		
+    		<div class="line" style="border-style: solid; border-width: 1.5px; margin-top: 0;"></div>
     	</div>
         <div class="subpage">        
         <br>	
         <div class="title-container" align="center">
             <p><span class="title" style="font-size: 17pt;"><b><u>SURAT KETERANGAN</u></b></span><br>
             Nomor: {{$nomor->nomor}}/UN8.4.1.31.1/KM/2018</p>            
-        </div>        	        
+        </div>        	 
+        <!-- <p>Lampiran: <strong>-</strong></p>        -->
         <br>
         <p>Melalui surat ini diterangkan bahwa:</p>        	
 		<table style="margin-left: 1cm;">
@@ -105,12 +106,19 @@
             </tr>
 		</table>
 		<br>
-		<p>terdaftar sebagai mahasiswa aktif Program Studi Magister Teknik Sipil Fakultas Teknik Universitas Lambung <br> Mangkurat Bidang Pilihan {{$surat->bidang_pilihan}} pada semester genap tahun akademik 2017/2018 dengan Nomor Induk Mahasiswa {{$surat->nim}}</p>
-        <p>Demikian surat keterangan ini dibuat untuk dipergunakan sebagai {{strtolower($surat->kegunaan_surat)}}</p>
+		<p>terdaftar sebagai mahasiswa aktif Program Studi Magister Teknik Sipil Fakultas Teknik Universitas Lambung Mangkurat Bidang Pilihan {{$surat->bidang_pilihan}} pada semester {{$semester[1]}} tahun akademik {{$semester[0]}} dengan Nomor Induk Mahasiswa {{$surat->nim}}</p>
+        <p>Demikian surat keterangan ini dibuat untuk dipergunakan sebagai {{strtolower($surat->kegunaan_surat)}}.</p>
 		<div class="ttd" style="float:right;">
 			<p>Banjarmasin, {{date('d')}} {{$month}} {{$tahun}} 
+                @if($ttd->jabatan == "Sekretaris")
+                <br>
+                an. Ketua,
+                <br>
+                {{$ttd->jabatan}} Prodi
+                @else
                 <br>
                 {{$ttd->jabatan}},
+                @endif
             </p>
             
 			<br>
@@ -123,7 +131,7 @@
     </div>
 </div>
 <script type="text/javascript">	
-    print();
+    // print();
 </script>
 </body>
 </html>

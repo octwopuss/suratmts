@@ -16,9 +16,11 @@
 				<tr>
 					<td>No</td>
 					<td>Pengirim</td>
-					<td>Tanggal</td>
+					<td>Tanggal Surat</td>
 					<td>No. Surat</td>
 					<td>Perihal</td>
+					<td>Tanggal Diterima</td>
+					<td>Penerima</td>
 					<td>Keterangan</td>
 					<td>Aksi</td>
 				</tr>
@@ -37,22 +39,30 @@
 					</td>
 					<td>{{$surat->nomor_surat}}</td>
 					<td>{{$surat->perihal}}</td>
+					<td>
+						@php
+							$date_diterima = date_create($surat->tanggal_diterima);
+							echo date_format($date_diterima, "d-m-Y");
+						@endphp
+					</td>
+					<td>{{$surat->penerima}}</td>
 					<td>{{$surat->keterangan}}</td>
 					<td>
-						<a href="#" data-toggle="modal" data-target="#myModal" class="btn btn-primary btn-sm" title="View"><i class="fa fa-eye"></i></a>
+						<a href="/scan/{{$surat->file_surat}}" target="_blank" class="btn btn-primary btn-sm" title="View"><i class="fa fa-eye"></i></a>
+						<!-- <a href="#" data-toggle="modal" data-target="#myModal" class="btn btn-primary btn-sm" title="View"><i class="fa fa-eye"></i></a> -->
 						<!-- Modal -->
-
+<!-- 
 						<div class="modal fade" id="myModal" role="dialog">
-						    <div class="modal-dialog modal-lg">
+						    <div class="modal-dialog modal-lg"> -->
 						    
 						      <!-- Modal content-->
-						      <div class="modal-content">
+						      <!-- <div class="modal-content">
 						        <div class="modal-header">
 						          <button type="button" class="close" data-dismiss="modal">&times;</button>
 						          <h4 class="modal-title">{{$surat->perihal}}</h4>
 						        </div>
 						        <div class="modal-body" style="width: 100%; text-align: center;">						        
-						          <img width="800" height="800" src="/gambar/{{$surat->file_surat}}">
+						          <a href="/scan/{{$surat->file_surat}}">Test</a>
 						        </div>
 						        <div class="modal-footer">
 						          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
@@ -60,7 +70,7 @@
 						      </div>
 						      
 						    </div>
-						</div>
+						</div> -->
 
 						<a title="Edit" href="{{route('admin.editSuratMasuk', $surat->id)}}" class="btn btn-warning btn-sm"><i class="fa fa-edit"></i></a>
 						<a title="Delete" onclick="return confirm('Apakah anda yakin akan menghapus surat ini?')" href="{{route('admin.deleteSuratMasuk', $surat->id)}}" class="btn btn-danger btn-sm"><i class="fa fa-trash-o"></i></a>						

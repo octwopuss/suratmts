@@ -1,5 +1,7 @@
 @extends('layouts.admin-master')
 
+@section('title', 'Buat Surat Keterangan Aktif Kuliah')
+
 @section('admin')
 <h3 class="page-title">Surat Internal</h3>
 <form method="POST" action="{{route('admin.storeSurat1A', $student->id)}}">
@@ -17,6 +19,22 @@
 	<br>	
 	<label>Bidang Pilihan</label>
 	<input class="form-control input-lg" placeholder="" type="text" name="bidang_pilihan" value="{{$student->bidang_pilihan}}">
+	<br>
+	<label>Semester</label>
+	<select name="semester" class="form-control input-lg">
+		<option value="2017/2018,ganjil">2017/2018 Ganjil</option>
+		<option value="2017/2018,genap">2017/2018 Genap</option>
+		<option value="2016/2017,ganjil">2016/2017 Ganjil</option>
+		<option value="2016/2017,genap">2016/2017 Genap</option>
+		<option value="2015/2016,ganjil">2015/2016 Ganjil</option>
+		<option value="2015/2016,genap">2015/2016 Genap</option>
+		<option value="2014/2015,ganjil">2014/2015 Ganjil</option>
+		<option value="2014/2015,genap">2014/2015 Genap</option>
+		<option value="2013/2014,ganjil">2013/2014 Ganjil</option>
+		<option value="2013/2014,genap">2013/2014 Genap</option>
+		<option value="2012/2013,ganjil">2012/2013 Ganjil</option>
+		<option value="2012/2013,genap">2012/2013 Genap</option>
+	</select>
 	<br>
 	<label>Alamat Rumah</label>
 	<input class="form-control input-lg" placeholder="" type="text" value="{{$student->alamat_rumah}}" name="alamat_rumah">

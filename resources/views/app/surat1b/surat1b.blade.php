@@ -1,5 +1,6 @@
 @extends('layouts.master')
 
+@section('title', 'Daftar Surat Permintaan Data')
 @section('tabel')
 <div class="panel-title">
 	<h3 class="page-title"><strong>Surat Eksternal</strong></h3>

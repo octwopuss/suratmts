@@ -91,14 +91,4 @@ class AdminController extends Controller
         $surat = SuratTest::all();
         return view ('admin.surat1-showSurat', ['surat'=>$surat]);
     }
-
-    public function authFile($filename)
-    {   
-        dd($filename);
-        if(Auth::guard('admin')->check()){
-            return response()->download(Storage_path('public/gambar/'.$filename), null, [], null);        
-        }else{
-            return redirect('/');
-        }
-    }
 }

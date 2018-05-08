@@ -1,5 +1,7 @@
 @extends('layouts.admin-master');
 
+@section('title', 'Pilih Pengaju Surat Keterangan Aktif Kuliah')
+
 @section('admin')
 
 <form method="POST" action="{{route('admin.findPengajuSurat1A')}}">

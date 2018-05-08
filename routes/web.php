@@ -20,20 +20,19 @@ use App\penanggungJawab;
 */
 
 Route::get('/dashboard/', 'SuratController@showDashboard')->name('dashboard');
-
+Route::get('/scan/{filename}', 'AdminController@proteccScan');
 Route::get('/', 'SuratController@showIfAuth');
 Route::get('/riwayat-surat/', 'SuratController@history')->name('history');
+Route::get('/detail-surat/{id}/{user_id}/{tipe}', 'SuratController@viewHistory')->name('viewHistory');
 Route::post('/auth', '\App\Http\Controllers\Auth\LoginController@authenticateStudent')->name('student-login');
 Route::get('/logout', '\App\Http\Controllers\Auth\LoginController@logout');
 Route::get('/user_notif', function(){
 	$user = Auth::guard('student')->user();
-	$DetailSurat = DetailSurat::where(	'user_id', $user->id)
+	$DetailSurat = DetailSurat::where('user_id', $user->id)
 					->where('user_notif', 1)->update(['user_notif'=>0]);
 
 	return redirect()->route('history');		
 });
-
-Route::get('/gambar/{filename}', 'AdminController@authFile')->name('getFile')->middleware('auth');
 
 Route::prefix('surat-internal')->group(function(){
 	Route::get('/', 'SuratController@indexSurat1A')->name('showSurat1A')->middleware('StudentMiddleware');
@@ -56,15 +55,15 @@ Route::prefix('surat-eksternal')->group(function(){
 });
 
 Route::prefix('admin')->group(function(){
-	Route::get('/', 'AdminController@showIfAuth');
+	Route::get('/', 'AdminController@showIfAuth')->name('admin.dashboard');
 	Route::post('/auth', 'AdminController@authenticateAdmin')->name('admin-login');	
 	Route::get('/dashboard', 'AdminController@admin')->name('admin-dashboard');			
 	Route::get('/login', 'AdminController@showAdminLogin');
 	Route::get('/logout', 'AdminController@logout')->name('admin.logout');
 	Route::get('/notif/{id}', 'AdminController@updateNotifAdmin')->name('notifAdmin');
 	Route::get('/history', 'SuratAdminController@history')->name('admin.history');
-	Route::get('/penanggung-jawab', 'SuratAdminController@penanggungJawab')->name('admin.penanggungJawab');	
-	Route::get('/{id}/storePenanggungJawab', 'SuratAdminController@storePenanggungJawab')->name('admin.storePenanggungJawab');
+	// Route::get('/penanggung-jawab', 'SuratAdminController@penanggungJawab')->name('admin.penanggungJawab');	
+	// Route::get('/{id}/storePenanggungJawab', 'SuratAdminController@storePenanggungJawab')->name('admin.storePenanggungJawab');
 
 	Route::prefix('mahasiswa')->group(function(){
 		Route::get('/', 'MahasiswaController@indexMahasiswa')->name('admin.showMahasiswa');
@@ -118,38 +117,3 @@ Route::prefix('admin')->group(function(){
 		Route::get('/{id}/delete', 'SuratAdminController@deleteSurat1B')->name('admin.deleteSurat1B');	
 	});
 });
-
-Route::get('/test', function(){
-
-	$keperluan_data = Surat1B::where('id', 6)->first();
-	$data = $keperluan_data->keperluan_data;
-	$my_array = explode(",", $data);
-	$emptyRemoved = array_filter($my_array);
-
-	for ($i=0; $i < count($emptyRemoved); $i++) { 
-		echo $i." ".$emptyRemoved[$i]."</br>";
-	};
-
-	return " "	;
-});
-
-
-Route::get('/test2', function(){
-	$current = date('Y');
-	$no_last = 80;
-	$target = 2090;	
-
-	if($current < $target){
-		$no_last = 1;
-		$current = $target;
-	}
-	$data = [$current, $no_last];	
-	return $data;
-
-});
-
-Route::get('/random', function(){
-	
-})->name('admin.tes');
-
-Route::get('/table/{data}', 'SuratAdminController@table');

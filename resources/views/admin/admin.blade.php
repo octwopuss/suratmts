@@ -9,27 +9,31 @@
 <div class="panel-body">
     <div class="row">
         <div class="panel-heading">
-            <h1 class="page-title">Surat Keluar</h1>
+            <h1 class="page-title">Surat Internal</h1>
         </div>
-        <a href="{{route('admin.showSurat1A')}}">           
-            <div class="col-md-3">                
-                    <div class="metric">
+        <a href="{{route('admin.showSurat1A')}}">
+            <div class="col-md-3">
+                <div class="metric">
                     <span class="icon"><i class="fa fa-envelope"></i></span>
                     <p>
-                        <span class="number">{{count($notif1A)}}</span>                        
-                        <span class="title">Surat Internal</span>                            
+                        <span class="number">{{count($notif1A)}}</span>
+                        <span class="title">Surat Keterangan Aktif Kuliah</span>
                     </p>
-                </div>                
+                </div>
             </div>
         </a>
-
+    </div>
+    <div class="row">
+        <div class="panel-heading">
+            <h1 class="page-title">Surat Eksternal</h1>
+        </div>
         <a href="{{route('admin.showSurat1B')}}">           
             <div class="col-md-3">                
                     <div class="metric">
                     <span class="icon"><i class="fa fa-envelope"></i></span>
                     <p>
                         <span class="number">{{count($notif1B)}}</span>
-                        <span class="title">Surat Eksternal</span>                            
+                        <span class="title">Surat Permintaan Data</span>                            
                     </p>
                 </div>                
             </div>
@@ -40,7 +44,7 @@
             <h1 class="page-title">Surat Masuk</h1>
         </div>
         <a href="{{route('admin.showSuratMasuk')}}">           
-            <div class="col-md-5">                
+            <div class="col-md-4">                
                     <div class="metric">
                     <span class="icon"><i class="fa fa-envelope"></i></span>
                     <p>
