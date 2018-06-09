@@ -50,7 +50,7 @@
 					</td>
 					<td>
 						@if($data->status == 1)
-							{{$nomor_surat->nomor}}						
+							Nomor {{$nomor_surat->nomor}}						
 						@endif
 					</td>					
 					<td>{{$data->created_at}}</td>

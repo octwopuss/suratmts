@@ -173,6 +173,15 @@
     <script>
         $(document).ready(function() {
             $('#table-surat').DataTable();
+            $('#keperluan-data').change(function(){
+                var value = $(this).val();
+                console.log(value);
+                if(value == 'Tugas'){
+                    $('#bukti_ba').hide();
+                }else{
+                    $('#bukti_ba').show();
+                }
+            });
         } );
 
          var count = 0;

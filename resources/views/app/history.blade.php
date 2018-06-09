@@ -48,12 +48,12 @@
 					@else
 					<td><span class="label label-danger">Ditolak</span></td>
 					@endif					
-					<td>{{$surat->comment}}  {{$surat->tipe_surat}}</td>	
+					<td>{{$surat->comment}} </td>	
 					<td>
 						@if($surat->tipe_surat == "1A")
-						<a href="{{route('viewHistory', [$surat1a->id, $surat->user_id, $surat->tipe_surat])}}" class="btn btn-primary btn-sm" title="View"><i class="fa fa-eye"></i></a>
+						<a target="_blank" href="{{route('viewHistory', [$surat1a->id, $surat->user_id, $surat->tipe_surat])}}" class="btn btn-primary btn-sm" title="View"><i class="fa fa-eye"></i></a>
 						@else
-						<a href="{{route('viewHistory', [$surat1b->id, $surat->user_id, $surat->tipe_surat])}}" class="btn btn-primary btn-sm" title="View"><i class="fa fa-eye"></i></a>
+						<a target="_blank" href="{{route('viewHistory', [$surat1b->id, $surat->user_id, $surat->tipe_surat])}}" class="btn btn-primary btn-sm" title="View"><i class="fa fa-eye"></i></a>
 						@endif
 					</td>														
 				</tr>		

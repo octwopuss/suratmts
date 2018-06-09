@@ -44,12 +44,6 @@
 	<label>Judul Tesis</label>
 	<input type="text" name="judul_tesis" class="form-control input-lg" value="{{$surat->judul_tesis}}">
 	<br>
-	<select class="form-control" name="semester">
-		<option value="2017/2018,Ganjil">2017/2018 Ganjil</option>
-		<option value="2017/2018,Genap">2017/2018 Genap</option>
-		<option value="2016/2017,Ganjil">2016/2017 Ganjil</option>
-		<option value="2016/2017,Genap">2016/2017 Genap</option>
-	</select>
 	<label>Alamat Tujuan</label>
 	<input class="form-control input-lg" placeholder="" type="text" name="alamat_tujuan" value="{{$surat->alamat_tujuan}}">
 	<br>
