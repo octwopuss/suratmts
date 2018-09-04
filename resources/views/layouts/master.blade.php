@@ -32,7 +32,7 @@
         <nav class="navbar navbar-default navbar-fixed-top">
             <!-- LOGO -->
             <div class="brand">
-                <a href=" "><img src="{{asset('assets/img/Logo-login.png')}}" alt="Dashboard" class="img-responsive logo"></a>
+                <a href="/dashboard"><img src="{{asset('assets/img/Logo-login.png')}}" alt="Dashboard" class="img-responsive logo"></a>
             </div>
             <div class="container-fluid">
                 <div class="navbar-btn">
@@ -107,7 +107,9 @@
                         </li> -->
                         <li class="dropdown">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown"> <span>{{Auth::guard('student')->user()->nama}}</span> <i class="icon-submenu lnr lnr-chevron-down"></i></a>
-                            <ul class="dropdown-menu">                                
+                            <ul class="dropdown-menu">                             
+                                <li><a href="/profil"><i class="lnr lnr-user"></i><span>Profil</span></a></li>  
+                                <li><a href="/ubah-password"><i class="fa fa-key"></i><span>Ubah Password</span></a></li> 
                                 <li><a href="/logout"><i class="lnr lnr-exit"></i> <span>Logout</span></a></li>
                             </ul>
                         </li>

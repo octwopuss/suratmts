@@ -7,9 +7,11 @@ use App\SuratTest;
 use App\Surat1A;
 use App\Surat1B;
 use App\DetailSurat;
+use App\Student;
 use Illuminate\Support\Facades\DB;
 use Auth;
 use File;
+use Hash;
 
 
 
@@ -34,6 +36,68 @@ class SuratController extends Controller
 
         return view('app.surat-test');
     }
+
+    public function updatePassword(Request $request){
+        $validateData = $request->validate([            
+            'password_baru' => 'required',
+            'konfirmasi_password' => 'required'
+        ]);
+
+        $student_id = Auth::guard('student')->id();        
+        $pb = $request->password_baru;
+        $kp = $request->konfirmasi_password;
+
+        if($kp == $pb){
+            $new_pass = Hash::make($pb);
+
+            $student = Student::find($student_id);
+
+            $student->password = $new_pass;
+
+            $student->save();
+        }else{
+            return redirect()->route('ubahPassword')->with('gagal-update-password', 'Password tidak sama!');
+        }
+
+
+        return redirect()->route('dashboard')->with('success', 'Password berhasil dirubah!');
+    }
+
+    public function profil(){
+        $student = Auth::guard('student')->user();
+        return view('app.profil', ['student'=>$student]);
+    }
+
+    public function editProfil(){
+        $student = Auth::guard('student')->user();
+        return view('app.edit-profil', ['student'=>$student]);
+    }
+
+    public function updateProfil(Request $request){
+        $validasiData = $request->validate([            
+            'nama' => 'required',
+            'nim' => 'required',
+            'bidang_pilihan' => 'required',            
+            'instansi' => 'required',                        
+        ]);    
+
+        $student = Auth::guard('student')->user();
+        $studentUpdate = Student::find($student->id);
+
+        $studentUpdate->nama = $request->nama;
+        $studentUpdate->nim = $request->nim;
+        $studentUpdate->bidang_pilihan = $request->bidang_pilihan;
+        $studentUpdate->judul_tesis = $request->judul_tesis;
+        $studentUpdate->email = $request->email;
+        $studentUpdate->phone = $request->phone;
+        $studentUpdate->instansi = $request->instansi;
+        $studentUpdate->alamat_instansi = $request->alamat_instansi;
+        $studentUpdate->telepon_instansi = $request->telp_instansi;
+
+        $studentUpdate->save();
+
+        return redirect()->route('dashboard')->with('success', 'Profil berhasil disimpan!');
+        }
     /**
      * Display a listing of the resource.
      *
@@ -61,9 +125,7 @@ class SuratController extends Controller
         $validasiData = $request->validate([            
             'alamat_rumah' => 'required',
             'telepon' => 'required',
-            'instansi' => 'required',
-            'alamat_instansi' => 'required',
-            'telp_instansi' => 'required',          
+            'instansi' => 'required',         
             'keperluan' => 'required',
             'kegunaan' => 'required',            
             'semester' => 'required',
@@ -240,10 +302,7 @@ class SuratController extends Controller
         $surat->judul_tesis = $request->judul_tesis;
 
         if($request->hasFile('bukti_ba')){
-            $file= $request->file('bukti_ba');
-            $ext = $file->getClientOriginalExtension();
-            $fileName = str_random(5)."-".date('his')."-".str_random(3).".".$ext;
-            $file->move('bukti_seminar/', $fileName);
+            $fileName = $request->file('bukti_ba')->store('berita_acara_seminar', 'public');            
 
             $surat->ba_seminar = $fileName;
         }
@@ -447,7 +506,7 @@ class SuratController extends Controller
             return view('app.historyView', ['surat'=>$surat, 'tipe'=>$tipe]);
         }else{
             $surat = Surat1B::where('id', $id)->where('student_id', $user_id)->first();
-            $data = explode(',', $surat->keperluan_data);
+            $data = explode(',', $surat->keperluan_data);            
             return view('app.historyView', ['surat'=>$surat, 'tipe'=>$tipe, 'data'=>$data]);
         }
     }

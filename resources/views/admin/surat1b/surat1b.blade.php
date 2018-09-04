@@ -7,7 +7,6 @@
 </div>
 
 <div class="panel">
-
 	@if(Session::has('success'))
 		<div id="toastr-demo">				
 		</div>
@@ -30,6 +29,8 @@
 				@php
 					$id = $srt->id_surat;
 					$surat = DB::table('surat_1_b')->where('id', $id)->first();
+					$url_gambar = Storage::url($surat->ba_seminar);							
+					
 				@endphp
 				<tr>				
 					<td>{{$i++}}</td>
@@ -46,12 +47,10 @@
 					<td>{{$surat->created_at}}</td>
 					<td>			
 						@if($surat->ba_seminar)
-							<a href="#" data-toggle="modal" data-target="#myModal" class="btn btn-primary btn-sm" title="View"><i class="fa fa-eye"></i></a>
+							<a href="#" data-toggle="modal" data-target="#myModal" class="btn btn-primary btn-sm" title="Lihat Berita Acara Seminar"><i class="fa fa-eye"></i></a>
 						<!-- Modal -->
-
 						<div class="modal fade" id="myModal" role="dialog">
-						    <div class="modal-dialog modal-lg">
-						    
+						    <div class="modal-dialog modal-lg">						    
 						      <!-- Modal content-->
 						      <div class="modal-content">
 						        <div class="modal-header">
@@ -59,20 +58,18 @@
 						          <h4 class="modal-title">Berita Acara Seminar</h4>
 						        </div>
 						        <div class="modal-body" style="width: 100%; text-align: center;">						        
-						          <img src="/bukti_seminar/{{$surat->ba_seminar}}">
+						          <img src="{{$url_gambar}}">
 						        </div>
 						        <div class="modal-footer">
 						          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
 						        </div>
-						      </div>
-						      
+						      </div>						      
 						    </div>
 						</div>
 						@endif
 						<a href="{{route('admin.prosesSurat1B', $srt->id_surat)}}" title="Proses Surat" class="btn btn-success btn-sm"><i class="fa fa-check-square"></i></a>
 						<a href="{{route('admin.editSurat1B', $srt->id_surat)}}" title="Edit" class="btn btn-warning btn-sm"><i class="fa fa-edit"></i></a>
-						<a href="{{route('admin.tolakSurat1B', $srt->id_surat)}}" title="Tolak" class="btn btn-danger btn-sm"><i class="fa fa-ban"></i></a></a>						
-						
+						<a href="{{route('admin.tolakSurat1B', $srt->id_surat)}}" title="Tolak" class="btn btn-danger btn-sm"><i class="fa fa-ban"></i></a></a>												
 					</td>
 				</tr>								
 			@endforeach	

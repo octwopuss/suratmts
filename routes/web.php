@@ -8,6 +8,8 @@ use Illuminate\Support\Facades\Hash;
 use App\Surat1B;
 use App\DetailSurat;
 use App\penanggungJawab;
+use App\Student;
+use Illuminate\Support\Facades\Storage;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -33,6 +35,13 @@ Route::get('/user_notif', function(){
 
 	return redirect()->route('history');		
 });
+Route::get('/profil', 'SuratController@profil')->name('viewProfil');
+Route::get('/edit-profil', 'SuratController@editProfil')->name('editProfil');
+Route::post('/update-profil', 'SuratController@updateProfil')->name('updateProfil');
+Route::get('/ubah-password', function(){
+	return view('app.ubah-password');
+})->name('ubahPassword');
+Route::post('/update-password', 'SuratController@updatePassword')->name('updatePassword');
 
 Route::prefix('surat-internal')->group(function(){
 	Route::get('/', 'SuratController@indexSurat1A')->name('showSurat1A')->middleware('StudentMiddleware');
@@ -80,7 +89,7 @@ Route::prefix('admin')->group(function(){
 		Route::post('/store', 'SuratAdminController@storeSuratMasuk')->name('admin.storeSuratMasuk');
 		Route::get('/{id}/edit', 'SuratAdminController@editSuratMasuk')->name('admin.editSuratMasuk');
 		Route::post('/{id}/update', 'SuratAdminController@updateSuratMasuk')->name('admin.updateSuratMasuk');
-		Route::get('/{id}/delete', 'SuratAdminController@deleteSuratMasuk')->name('admin.deleteSuratMasuk');			
+		Route::get('/{id}/delete', 'SuratAdminController@deleteSuratMasuk')->name('admin.deleteSuratMasuk');	
 	});
 
 	Route::prefix('surat-internal')->group(function(){
@@ -107,7 +116,7 @@ Route::prefix('admin')->group(function(){
 		Route::get('/pengaju', 'SuratAdminController@pengajuSurat1B')->name('admin.pengajuSurat1B');
 		Route::post('/data-pengaju/', 'SuratAdminController@findPengajuSurat1B')->name('admin.findPengajuSurat1B');
 		Route::get('/{id}/process', 'SuratAdminController@prosesSurat1B')->name('admin.prosesSurat1B');
-		Route::post('/{id}/storeProcess1B', 'SuratAdminController@storeProses1B')->name('admin.storeProses1B');		
+		Route::post('/{id}/storeProcess1B', 'SuratAdminController@storeProses1B')->name('admin.storeProses1B');	
 		Route::get('/{id}/view', 'SuratAdminController@viewSurat1B')->name('admin.viewSurat1B');		
 		Route::get('/{id}/success', 'SuratAdminController@suratSuccess1B')->name('admin.success1B');
 		Route::get('/{id}/edit', 'SuratAdminController@editSurat1B')->name('admin.editSurat1B');
@@ -116,4 +125,55 @@ Route::prefix('admin')->group(function(){
 		Route::post('/{id}/update', 'SuratAdminController@updateSurat1B')->name('admin.updateSurat1B');
 		Route::get('/{id}/delete', 'SuratAdminController@deleteSurat1B')->name('admin.deleteSurat1B');	
 	});
+});
+
+// Route::get('/import-users', function(){
+// 	$data = Storage::disk('local')->get('student2.json');
+// 	$json = json_decode($data, true);
+	
+// 	// dd($json);
+
+// 	$nim = $json[2]['data'][0]['nim'];
+// 	$name  = $json[2]['data'][0]['name'];
+// 	$gender = $json[2]['data'][0]['gender'];
+// 	$email = $json[2]['data'][0]['email'];
+// 	$major = $json[2]['data'][0]['bidang_pilihan'];
+// 	$title = $json[2]['data'][0]['judul'];
+	
+// 	$impor = $json[2]['data'];
+// 	// dd($impor);
+// 	// $student = new Student();
+
+// 	$count = count($impor);
+// 	for ($i=0; $i <$count ; $i++) { 
+// 		$student = new Student();		
+
+// 		$student->nim = $json[2]['data'][$i]['nim'];
+// 		$student->nama = $json[2]['data'][$i]['name'];
+// 		$student->email = $json[2]['data'][$i]['email'];
+// 		$student->password = Hash::make($json[2]['data'][$i]['nim']);
+// 		$student->gender = $json[2]['data'][$i]['gender'];
+// 		$student->phone = $json[2]['data'][$i]['phone'];
+// 		$student->bidang_pilihan = $json[2]['data'][$i]['bidang_pilihan'];
+// 		$student->judul_tesis = $json[2]['data'][$i]['judul'];
+	
+// 		$student->save();
+// 	}
+
+// 	echo '<b>'.$count.'</b> berhasil ditambahkan!.';
+// });
+
+Route::get('/password', function(){
+	$pass = Hash::make('password123');
+	echo $pass;
+});
+
+
+Route::get('/check', function(){
+	$pass = '$2y$10$k8NOI0RF6flT8VBhGqUJoeIBuT88neCm/cynhA9rmBqEyl0y1.hQ6';
+	if (Hash::check('password123', $pass)){
+		echo 'password sama';
+	}else{
+		echo 'password beda';
+	}
 });

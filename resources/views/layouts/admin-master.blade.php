@@ -113,7 +113,7 @@
                                 </ul>
                             </div>
                         </li>
-                        <li>
+<!--                         <li>
                             <a href="#subPagesAdmin" data-toggle="collapse" class="collapsed"><i class="lnr lnr-user"></i> <span>Formulir Pengajuan</span > <i class="icon-submenu lnr lnr-chevron-left"></i></a>
                             <div id="subPagesAdmin" class="collapse ">
                                 <ul class="nav">
@@ -121,9 +121,9 @@
                                     <li><a href="{{route('admin.showSurat1B')}}">Surat Eksternal</a></li>                                    
                                </ul>
                             </div>
-                        </li>                                                                               
+                        </li>   -->                                                                             
                         <li>
-                            <a href="#createSurat" data-toggle="collapse" class="collapsed"><i class="lnr lnr-inbox"></i> <span>Buat Surat</span> <i class="icon-submenu lnr lnr-chevron-left"></i></a>
+                            <a href="#createSurat" data-toggle="collapse" class="collapsed"><i class="lnr lnr-inbox"></i> <span>Surat Keluar</span> <i class="icon-submenu lnr lnr-chevron-left"></i></a>
                             <div id="createSurat" class="collapse ">
                                 <ul class="nav">
                                     <li><a href="{{route('admin.pengajuSurat1A')}}">Surat Internal</a></li>                           

@@ -240,8 +240,7 @@ class SuratAdminController extends Controller
     /* Start crud surat eksternal */
 
     public function indexSurat1B(){
-    	$surat = DetailSurat::where('status', 0)->where('tipe_surat', '1B')->orderBy('created_at', 'desc')->get();
-               
+    	$surat = DetailSurat::where('status', 0)->where('tipe_surat', '1B')->orderBy('created_at', 'desc')->get();                           
     	return view('admin.surat1b.surat1b', ['surat'=>$surat]);
     }
    
@@ -330,22 +329,16 @@ class SuratAdminController extends Controller
             ]);  
     }
 
-    public function updateSurat1B(Request $request, $data){
-        $validasiData = $request->validate([                                    
-            'keperluan_data' => 'required',
-            'instansi_tujuan' => 'required',
-            'alamat_tujuan' => 'required'            
-        ]);            
-
-        if($request->alasan_keperluan == "Tesis"){
-            $request->validate([
-                'bukti_ba' => 'required|max:1028',
-            ]);
-        }
+    public function updateSurat1B(Request $request, $data){        
+        // if($request->alasan_keperluan == "Tesis"){
+        //     $request->validate([
+        //         'bukti_ba' => 'required|max:1028',
+        //     ]);
+        // }
             
-        $removed_empty = array_filter($request->keperluan_data);        
+        // $removed_empty = array_filter($request->keperluan_data);        
     
-        $keperluan_data = implode(", ", $removed_empty);                    
+        // $keperluan_data = implode(", ", $removed_empty);                    
 
         $surat_eksternal = "1B";        
 
@@ -353,20 +346,20 @@ class SuratAdminController extends Controller
         $surat1b = Surat1b::find($data);
 
         $surat1b->judul_tesis = $request->judul_tesis;
-        $surat1b->keperluan_data = $keperluan_data;
+        // $surat1b->keperluan_data = $keperluan_data;
         $surat1b->alasan_keperluan = $request->alasan_keperluan;
         $surat1b->instansi_tujuan = $request->instansi_tujuan;
         $surat1b->alamat_tujuan = $request->alamat_tujuan;   
 
 
-        if($request->hasFile('bukti_ba')){
-            $file= $request->file('bukti_ba');
-            $ext = $file->getClientOriginalExtension();
-            $fileName = str_random(5)."-".date('his')."-".str_random(3).".".$ext;
-            $file->move('bukti_seminar/', $fileName);
+        // if($request->hasFile('bukti_ba')){
+        //     $file= $request->file('bukti_ba');
+        //     $ext = $file->getClientOriginalExtension();
+        //     $fileName = str_random(5)."-".date('his')."-".str_random(3).".".$ext;
+        //     $file->move('bukti_seminar/', $fileName);
 
-            $surat1b->ba_seminar = $fileName;
-        }
+        //     $surat1b->ba_seminar = $fileName;
+        // }
 
 
         $surat1b->save();
@@ -461,7 +454,8 @@ class SuratAdminController extends Controller
         $ds = DetailSurat::where('id_surat', $id)->where('tipe_surat', '1B')->first();            
         $ttd = PenanggungJawab::where('id', $ds->ttd)->first();
         $array_data = explode(",", $surat->keperluan_data);   
-        $keperluan_data = array_map('ucfirst', $array_data);               
+        $keperluan_data = array_map('ucfirst', $array_data);    
+            
         
         return view('admin.surat1b.permohonanBantuanData', [
             'nomor'=>$nomor, 
@@ -470,7 +464,7 @@ class SuratAdminController extends Controller
             'tahun'=>$tahun, 
             'month'=>$month, 
             'date'=>$date,
-            'keperluan_data' => $keperluan_data
+            'keperluan_data' => $keperluan_data            
         ]);
     }
 

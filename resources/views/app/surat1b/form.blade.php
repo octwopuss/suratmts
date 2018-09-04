@@ -2,7 +2,7 @@
 
 @section('title', 'Pengajuan Surat Permintaan Data')
 @section('form')
-<h3 class="page-title">Surat Eksternal</h3>
+<h3 class="page-title">Surat Permintaan Data</h3>
 <form method="POST" action="{{route('storeSurat1B', $student->id)}}" enctype="multipart/form-data">
 	{{csrf_field()}}
 
@@ -39,8 +39,8 @@
 	<input type="text" name="judul_tesis" class="form-control input-lg" value="{{$student->judul_tesis}}">
 	<br>
 	<label>Keperluan</label>		
-	<select class="form-control input-lg" name="alasan_keperluan" id="keperluan-data">
-		<option> - </option>
+	<select class="form-control input-lg" name="alasan_keperluan" id="keperluan-data" required>
+		<option disabled selected value> <b> - </b> </option>
 		<option value="Tesis">Penelitian dan Penulisan Tesis</option>
 		<option value="Tugas">Penelitian dan Penulisan Tugas Kuliah</option>
 	</select>
@@ -53,7 +53,7 @@
 	<div class="form-group row">
 		<div class="col-xs-10" id="keperluan_data">
 			<label>Keperluan Data</label>
-			<input class="form-control input-lg" placeholder="" type="text" name="keperluan_data[]">
+			<input class="form-control input-lg" placeholder="" type="text" name="keperluan_data[]" required>
 		</div>
 		<div class="col-xs-2">
 			<label>Tambah Data</label>
@@ -65,7 +65,7 @@
 	</div>
 	<br>
 	<div id="bukti_ba">
-		<label>Upload Berita Acara Seminar</label>
+		<label>Upload Berita Acara Seminar (<span style="color: red;">*.jpg/.png,</span>)</label>
 		<input type="file" name="bukti_ba" class="form-control input-lg">
 	</div>
 	<br>

@@ -1,7 +1,7 @@
 @extends('layouts.master')
 
 @section('form')
-<h3 class="page-title">Surat Internal</h3>
+<h3 class="page-title">Surat Keterangan Aktif Kuliah</h3>
 <form method="POST" action="{{route('storeSurat1A', $student->id)}}">
 	{{csrf_field()}}
 

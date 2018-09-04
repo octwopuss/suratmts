@@ -37,13 +37,13 @@
 	</select>
 	<br>
 	<label>Alamat Rumah</label>
-	<input class="form-control input-lg" placeholder="" type="text" value="{{$student->alamat_rumah}}" name="alamat_rumah">
+	<input class="form-control input-lg" placeholder="" type="text" value="{{$student->alamat_rumah}}" name="alamat_rumah" required>
 	<br>
 	<label>No.Telepon/HP</label>
 	<input class="form-control input-lg" placeholder="" type="text" name="telepon" value="{{$student->phone}}">
 	<br>
 	<label>Instansi</label>
-	<input class="form-control input-lg" placeholder="" type="text" name="instansi" value="{{$student->instansi}}">
+	<input class="form-control input-lg" placeholder="" type="text" name="instansi" value="{{$student->instansi}}" required>
 	<br>		
 	<label>Alamat Instansi</label>
 	<input class="form-control input-lg" placeholder="" type="text" name="alamat_instansi" value="{{$student->alamat_instansi}}">

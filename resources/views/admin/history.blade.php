@@ -4,10 +4,10 @@
 
 @section('admin')
 <?php $i = 1; ?>
+<div class="panel-title">
+	<h2 class="page-title">History</h2>
+</div>
 <div class="panel">
-	<div class="panel-heading">
-		<h2 class="panel-title">History</h2>
-	</div>
 	<div class="panel-body">
 		<table id="table-surat">
 			<thead>
@@ -63,14 +63,14 @@
 					<td width="15%" align="center">
 						@if($data->tipe_surat == "1A")
 							@if($data->status == 1)						
-								<a target="_blank" href="{{route('admin.viewSurat1A', $surat1a->id)}}" class="btn btn-primary btn-xs" title="Lihat"><i class="fa fa-eye"></i></a>							
+								<a target="_blank" href="{{route('admin.viewSurat1A', $surat1a->id)}}" class="btn btn-primary btn-xs" title="Lihat Surat"><i class="fa fa-eye"></i></a>							
 							@endif
-						<a href="{{route('admin.editSurat1A', $surat1a->id)}}" title="Edit" class="btn btn-warning btn-xs"><i class="fa fa-edit" disabled></i></a>
+						<!-- <a href="{{route('admin.editSurat1A', $surat1a->id)}}" title="Edit" class="btn btn-warning btn-xs"><i class="fa fa-edit" disabled></i></a> -->
 						@else
 							@if($data->status == 1)
-								<a target="_blank" href="{{route('admin.viewSurat1B', $surat1b->id)}}" class="btn btn-primary btn-xs" title="Lihat"><i class="fa fa-eye"></i></a>
+								<a target="_blank" href="{{route('admin.viewSurat1B', $surat1b->id)}}" class="btn btn-primary btn-xs" title="Lihat Surat"><i class="fa fa-eye"></i></a>
 							@endif
-						<a href="{{route('admin.editSurat1B', $surat1b->id)}}" title="Edit" class="btn btn-warning btn-xs"><i class="fa fa-edit"></i></a>
+						<!-- <a href="{{route('admin.editSurat1B', $surat1b->id)}}" title="Edit" class="btn btn-warning btn-xs"><i class="fa fa-edit"></i></a> -->
 						@endif
 					</td>
 				</tr>
@@ -79,5 +79,4 @@
 		</table>
 	</div>
 </div>
-
 @endsection
